@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Akun Admin</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Data Akun Admin</h2>
+                            <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#tambahAdmin">
+                              <i class="mdi mdi-account-multiple-plus font-size-20"></i> Tambah Admin
+                            </button>
+                        </div>
+            
+                        <div class="card-body">
+                            <div class="hoverable-data-table">
+                                <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>NIP</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                        </tr>
+                                    </thead>
+            
+                                    <tbody>
+                                        <% akunAdmin.forEach((i,index)=> { %>
+                                            <% if (i.role == "admin") { %>
+                                                <tr>
+                                                    <td><%= i.name%></td>
+                                                    <td><%= i.nip%></td>
+                                                    <td><%= i.email%></td>
+                                                    <td><%= i.phone%></td>
+                                                </tr>
+                                            <% } %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    <!-- Tambah Admin -->
+    <div class="modal fade" id="tambahAdmin" tabindex="-1" aria-labelledby="tambahAdmin" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tambahAdmin">Tambah Akun Admin</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+                <form action="" onsubmit="return false">
+                  <div class="mb-3">
+                    <label for="nip" class="col-form-label">NIP :</label>
+                    <input type="text" class="form-control" id="nip" name="nip" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="name" class="col-form-label">Nama :</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="col-form-label">Email :</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="col-form-label">Password :</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="cpassword" class="col-form-label">Konfirmasi Password :</label>
+                    <input type="password" class="form-control" id="cpassword" name="cpassword" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" onclick='addPegawai()'>Kirim</button>
+                  </div>
+                </form>
+          </div>
+          <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" onclick='addPegawai()'>Kirim</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_admin/script'); %>
+<script type="text/javascript">
+  window.onload = function () {
+      document.getElementById("password").onchange = validatePassword;
+      document.getElementById("cpassword").onchange = validatePassword;
+  }
+  function validatePassword(){
+      var pass2=document.getElementById("cpassword").value;
+      var pass1=document.getElementById("password").value;
+      if(pass1!=pass2)
+          document.getElementById("cpassword").setCustomValidity("Passwords Tidak Sama, Coba Lagi");
+      else
+          document.getElementById("cpassword").setCustomValidity('');
+  }
+
+    async function addPegawai(){
+      let name = $("#name").val();
+      let nip = $("#nip").val();
+      let email = $("#email").val();
+      let password = $("#password").val();
+      let cpassword = $("#cpassword").val();
+
+      if (name == "" || nip == "" || email == "" || password == "" || password != cpassword) {
+        return false;
+      }else {
+        $.ajax({
+            url: `http://localhost:3000/api/add_pegawai`,
+            type: 'POST',
+            data: ({ name: name, nip: nip, email: email, password: password, role: "admin", verified: true }),
+            success: function (result) {
+              // location.reload();
+            }
+        });
+        Swal.fire(
+          'Good job!',
+          'Berhasil Menambahkan Akun Admin',
+          'success'
+        ).then(function(){ 
+            location.reload();
+            }
+          )
+      }
+
+      
+    }
+
+    async function addPegawaiExcel(){
+      Swal.fire(
+        'Good job!',
+        'Berhasil Menambahkan Akun Pegawai',
+        'success'
+      ).then(function(){ 
+        location.reload();
+        }
+      )
+    }
+
+</script>
+</body>
+</html>
+

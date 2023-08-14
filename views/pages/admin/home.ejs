@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Home</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+
+    <div id="toaster">
+      <input type="hidden" id="namaUser" value="<%= users.name %>">
+    </div>
+
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+          <!-- ====================================
+          ——— CONTENT WRAPPER
+          ===================================== -->
+          <div class="content-wrapper">
+            <div class="content">
+                  <!-- Top Statistics -->
+                  <div class="row">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-ticket-outline text-danger mr-4"></i>
+                          <h4 class="text-primary my-2"><%= incidentTicket.length %></h4>
+                          <p>Incident Ticket</p>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-ticket-outline text-primary mr-4"></i>
+                          <h4 class="text-primary my-2"><%= requestTicket.length %></h4>
+                          <p>Request Ticket</p>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-account-outline text-success mr-4"></i>
+                          <% let jlhPegawai = 0 %> 
+                          <% pegawai.forEach(i => { %>
+                            <% if (i.role == "pegawai") { %>
+                            <% jlhPegawai += 1 %> 
+                            <% } %>
+                          <% }) %>
+                          <h4 class="text-primary my-2"><%= jlhPegawai %></h4>
+                          <p>Account Pegawai</p>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <% var pesan = 0 %>
+                    <% message.forEach((i,index) => { %>
+                      <% if (i.receiver_role == "admin") { %>
+                        <% pesan++ %>
+                      <% } %>
+                     <% }) %>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-email-outline text-warning mr-4"></i>
+                          <h4 class="text-primary my-2"><%= pesan %></h4>
+                          <p>Pesan</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <% var belum = 0 %>
+                  <% var sedang = 0 %>
+                  <% var selesai = 0 %>
+                  <% var ticketIncidentPegawai = 0 %>
+                  <% var ticketIncidentOPD = 0 %>
+                  <% var ticketRequestPegawai = 0 %>
+                  <% var ticketRequestOPD = 0 %>
+                  <% incidentTicket.forEach((i,index) => { %>
+                  
+                    <% if (i.status == "Belum Dikerjakan") { %>
+                      <% belum++ %> 
+                    <% }else if(i.status == "Sedang Dikerjakan"){ %>
+                      <% sedang++ %> 
+                    <% }else if(i.status == "Selesai Dikerjakan"){ %>
+                      <% selesai++ %> 
+                    <% } %>
+
+                    <% if (i.type == "Pegawai") { %>
+                      <% ticketIncidentPegawai++ %> 
+                    <% }else if(i.type == "OPD"){ %>
+                      <% ticketIncidentOPD++ %> 
+                    <% } %>
+                  
+                  <% }) %>
+                  <% requestTicket.forEach((i,index) => { %>
+                    
+                    <% if (i.status == "Belum Dikerjakan") { %>
+                      <% belum++ %> 
+                    <% }else if(i.status == "Sedang Dikerjakan"){ %>
+                      <% sedang++ %> 
+                    <% }else if(i.status == "Selesai Dikerjakan"){ %>
+                      <% selesai++ %> 
+                    <% } %>
+
+                    <% if (i.type == "Pegawai") { %>
+                      <% ticketRequestPegawai++ %> 
+                    <% }else if(i.type == "OPD"){ %>
+                      <% ticketRequestOPD++ %> 
+                    <% } %>
+                    
+                  <% }) %>
+
+                  <div class="row">
+                    <div class="col-xl-8 col-md-12">
+                      <!-- Sales Graph -->
+                      <div class="card card-default">
+                        <div class="card-header">
+                          <h2>Sebaran Ticket</h2>
+                        </div>
+                        <div class="card-body d-flex">
+                          <div class="">
+                            <div class="card widget-block p-4 rounded bg-white border">
+                              <div class="card-block">
+                                <i class="mdi mdi-ticket-outline text-primary mr-4"></i>
+                                <h4 class="text-primary my-2"><%= ticketIncidentPegawai %></h4>
+                                <p>Incident Ticket Pegawai</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="">
+                            <div class="card widget-block p-4 rounded bg-white border">
+                              <div class="card-block">
+                                <i class="mdi mdi-ticket-outline text-primary mr-4"></i>
+                                <h4 class="text-primary my-2"><%= ticketRequestPegawai %></h4>
+                                <p>Request Ticket Pegawai</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="">
+                            <div class="card widget-block p-4 rounded bg-white border">
+                              <div class="card-block">
+                                <i class="mdi mdi-ticket-outline text-primary mr-4"></i>
+                                <h4 class="text-primary my-2"><%= ticketIncidentOPD %></h4>
+                                <p>Incident Ticket Dinas OPD</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="">
+                            <div class="card widget-block p-4 rounded bg-white border">
+                              <div class="card-block">
+                                <i class="mdi mdi-ticket-outline text-primary mr-4"></i>
+                                <h4 class="text-primary my-2"><%= ticketRequestOPD %></h4>
+                                <p>Request Ticket Dinas OPD</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+              
+                    <div class="col-xl-4 col-md-12">
+
+                      <input type="hidden" id="jlhBlmDikerjakan" value="<%= belum %>">
+                      <input type="hidden" id="jlhSdgDikerjakan" value="<%= sedang %>">
+                      <input type="hidden" id="jlhSdhDikerjakan" value="<%= selesai %>">
+
+                      <!-- Doughnut Chart -->
+                      <div class="card card-default">
+                        <div class="card-header justify-content-center">
+                          <h2>Status Tickets Overview</h2>
+                        </div>
+                        <div class="card-body" >
+                          <canvas id="doChart" ></canvas>
+                        </div>
+                        <a href="/homeAdmin/report" class="pb-5 d-block text-center text-muted"><i class="mdi mdi-download mr-2"></i> Download overall report</a>
+                        <div class="card-footer d-flex flex-wrap bg-white p-0">
+                          <div class="">
+                            <div class="py-4 px-4">
+                              <ul class="d-flex flex-column justify-content-between">
+                                <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #4c84ff"></i>Sedang Dikerjakan</li>
+                                <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #80e1c1 "></i>Selesai Dikerjakan</li>
+                                <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #ffa128"></i>Belum Dikerjakan</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+              
+                    </div>
+                  </div>
+
+
+      </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <%- include('partials_admin/script'); %>
+  <script>
+    /*======== 11. DOUGHNUT CHART ========*/
+    var doughnut = document.getElementById("doChart");
+    var belum_dikerjakan = document.getElementById("jlhBlmDikerjakan").value;
+    var sedang_dikerjakan = document.getElementById("jlhSdgDikerjakan").value;
+    var sudah_dikerjakan = document.getElementById("jlhSdhDikerjakan").value;
+    if (doughnut !== null) {
+      var myDoughnutChart = new Chart(doughnut, {
+        type: "doughnut",
+        data: {
+          labels: ["Sedang Dikerjkaan", "Selesai Dikerjakan", "Belum Dikerjakan"],
+          datasets: [
+            {
+              label: ["Sedang Dikerjkaan", "Selesai Dikerjakan", "Belum Dikerjakan"],
+              data: [sedang_dikerjakan, sudah_dikerjakan, belum_dikerjakan],
+              backgroundColor: ["#4c84ff", "#29cc97", "#fec402"],
+              borderWidth: 1
+              // borderColor: ['#4c84ff','#29cc97','#8061ef','#fec402']
+              // hoverBorderColor: ['#4c84ff', '#29cc97', '#8061ef', '#fec402']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          },
+          cutoutPercentage: 75,
+          tooltips: {
+            callbacks: {
+              title: function(tooltipItem, data) {
+                return "Ticket : " + data["labels"][tooltipItem[0]["index"]];
+              },
+              label: function(tooltipItem, data) {
+                return data["datasets"][0]["data"][tooltipItem["index"]];
+              }
+            },
+            titleFontColor: "#888",
+            bodyFontColor: "#555",
+            titleFontSize: 12,
+            bodyFontSize: 14,
+            backgroundColor: "rgba(256,256,256,0.95)",
+            displayColors: true,
+            borderColor: "rgba(220, 220, 220, 0.9)",
+            borderWidth: 2
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Profile</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+          <!-- ====================================
+          ——— CONTENT WRAPPER
+          ===================================== -->
+            <div class="content-wrapper">
+                <div class="content">
+                  <div class="bg-white border rounded">
+                    <div class="row no-gutters">
+                      <div class="col-lg-4 col-xl-3">
+                        <div class="profile-content-left profile-left-spacing pt-5 pb-3 px-3 px-xl-5">
+                          <div class="card text-center widget-profile px-0 border-0">
+                            <div class="card-img mx-auto rounded-circle">
+                              <img src="/assets/img/user/icon_account.jpg" alt="user image" height="100">
+                            </div>
+                  
+                            <div class="card-body">
+                              <h4 class="py-2 text-dark"><%= users.name %></h4>
+                              <p><%= users.nip %></p>
+                            </div>
+
+                            <hr class="w-100">
+                  
+                            <div class="contact-info pt-4">
+                              <h5 class="text-dark mb-1">Contact Information</h5>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Email address</p>
+                              <p><%= users.email %></p>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Phone Number</p>
+                              <p><%= users.phone %></p>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Jabatan</p>
+                              <p><%= users.jabatan %></p>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Dinas</p>
+                              <p><%= users.dinas %></p>
+                            </div>
+                          </div>
+                  
+                          
+                        </div>
+                      </div>
+                  
+                      <div class="col-lg-8 col-xl-9">
+                        <div class="profile-content-right profile-right-spacing py-5">
+                          <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="updateProfile-tab" data-toggle="tab" href="#updateProfile" role="tab" aria-controls="updateProfile" aria-selected="false">Ubah Profile</a>
+                            </li>
+                          </ul>
+                  
+                          <div class="tab-content px-3 px-xl-5" id="myTabContent">
+                            <div class="tab-pane fade show active" id="updateProfile" role="tabpanel" aria-labelledby="updateProfile-tab">
+                              <div class="tab-pane-content mt-5">
+                                <form action="" onsubmit="return false" >
+                                  <div class="form-group mb-4">
+                                    <label for="name">Nama Lengkap</label>
+                                    <input type="text" readonly class="form-control" id="name" value="<%= users.name %>">
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="nip">NIP</label>
+                                    <input type="text" readonly class="form-control" id="nip" value="<%= users.nip %>">
+                                  </div>
+                  
+                                  <div class="form-group mb-4">
+                                    <label for="email">Email</label>
+                                    <input type="email" readonly class="form-control" id="email" value="<%= users.email %>">
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" required>
+                                    <!-- <label class="error" for="phone" id="phone_error">This field is required.</label> -->
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="jabatan">Jabatan</label>
+                                    <input type="text" class="form-control" id="jabatan" name="jabatan" required>
+                                    <!-- <label class="error" for="jabatan" id="jabatan_error">This field is required.</label> -->
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="dinas">Dinas</label>
+                                    <input type="text" class="form-control" id="dinas" name="dinas" required>
+                                    <!-- <label class="error" for="dinas" id="dinas_error">This field is required.</label> -->
+                                  </div>
+                  
+                                  <div class="d-flex justify-content-end mt-5">
+                                    <button type="submit" class="btn btn-primary mb-2 btn-pill" onclick='updateProfile("<%= users.id %>")'>Update Profile</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div> <!-- End Content -->
+            </div> <!-- End Content Wrapper -->
+    
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <%- include('partials_admin/script'); %>
+
+  <script type="text/javascript">
+    // $(function() {
+    //   $('.error').hide();
+    //   $(".button").click(function() {
+    //     // validate and process form here
+    //     $('.error').hide();
+    //       var phone = $("input#phone").val();
+    //       if (phone == "") {
+    //         $("label#phone_error").show();
+    //         $("input#phone").focus();
+    //         return false;
+    //       }
+    //       var jabatan = $("input#jabatan").val();
+    //       if (jabatan == "") {
+    //         $("label#jabatan_error").show();
+    //         $("input#jabatan").focus();
+    //         return false;
+    //       }
+    //       var dinas = $("input#dinas").val();
+    //       if (dinas == "") {
+    //         $("label#dinas_error").show();
+    //         $("input#dinas").focus();
+    //         return false;
+    //       }
+    //   });
+    // });
+
+    async function regAkunDinas(id, nip, name, dinas, is_dinas) {
+        is_dinas = true;
+        let namaFile = surat_permohonan.files[0];
+        console.log(namaFile)
+
+        const data = new FormData();
+
+        data.append("surat_permohonan", namaFile)
+        data.append("is_dinas", is_dinas)
+        // console.log('formData = '+data)
+        
+        if (namaFile == "" || namaFile == null || namaFile == undefined) {
+          return false
+        }else{
+          Swal.fire({
+          title: 'Are you sure?',
+          text: "Anda yakin ingin menjadikan akun dinas?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`http://localhost:3000/api/regAkunDinas/${id}`, {
+                  method: 'put',
+                  body: data,
+              }).then(async (response) => {
+                  if (response.status === 400) {
+                    // alert("Id Tidak Boleh Kosong!")
+                  }
+                  if (response.status != 400) {
+                    socket.emit("reqAkunDinas", {
+                        sender_nip: nip,
+                        sender_name: name,
+                        dinas: dinas,
+                        text: "Request Akun Dinas OPD",
+                    });
+                    // location.reload();
+                  }
+                  return response.json()
+              }).then((res) => {
+
+              }).catch((error) => {
+                  console.log(error)
+              })
+
+              $.ajax({
+                url: `http://localhost:3000/api/add_notification`,
+                type: 'POST',
+                data: ({ receiver_role: "admin", sender_role: "pegawai", sender_nip: nip, sender_name: name, text: "Request Akun Dinas OPD" }),
+                success: function (result) {
+                  // location.reload();
+                }
+              });
+
+              Swal.fire(
+                'Permohonan pembuatan akun dinas telah dikirim',
+                'Mohon tunggu persetujuan dari admin',
+                'success'
+              ).then(function(){ 
+                location.reload();
+                }
+              )
+            }
+          })
+        }
+    }
+
+    async function updateProfile(id) {
+      let phone = $("#phone").val();
+      let jabatan = $("#jabatan").val();
+      let dinas = $("#dinas").val();
+
+      
+
+      if (phone == "" || jabatan == "" || dinas == "") {
+        // $("label#phone_error").show();
+        // $("input#phone").focus();
+        return false;
+      }else {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "Anda yakin ingin memperbaharui data anda?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, update it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: `http://localhost:3000/api/update_profile/${id}`,
+              type: 'PUT',
+              data: ({ phone: phone, jabatan: jabatan, dinas: dinas }),
+              success: function (result) {
+                // location.reload();
+              }
+            });
+            
+            Swal.fire(
+              'Updated!',
+              'Data anda telah diperbaharui',
+              'success'
+            ).then(function(){ 
+              location.reload();
+              }
+            )
+          }
+        })
+      }
+      
+      
+    }
+
+  </script>
+</body>
+</html>
+

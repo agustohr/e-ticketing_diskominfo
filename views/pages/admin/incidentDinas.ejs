@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Ticket Dinas | Incident</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Ticket Incident Dinas OPD</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/homeAdmin">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          Ticket Dinas OPD
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Incident</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Data Ticket Incident Dinas OPD</h2>
+                        </div>
+            
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="belumDikerjakan-tab" data-toggle="tab" data-target="#belumDikerjakan" type="button" role="tab" aria-controls="belumDikerjakan" aria-selected="true">Belum Dikerjakan</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="sedangDikerjakan-tab" data-toggle="tab" data-target="#sedangDikerjakan" type="button" role="tab" aria-controls="sedangDikerjakan" aria-selected="false">Sedang Dikerjakan</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="selesaiDikerjakan-tab" data-toggle="tab" data-target="#selesaiDikerjakan" type="button" role="tab" aria-controls="selesaiDikerjakan" aria-selected="false">Selesai Dikerjakan</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="belumDikerjakan" role="tabpanel" aria-labelledby="belumDikerjakan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>NIP Pegawai</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                    <% if (i.type == "OPD" && i.status == "Belum Dikerjakan") { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.nip_pegawai%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID")%></td>
+                                                        <td><span class="badge badge-pill badge-danger"><%= i.status%></span></td>
+                                                        <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                          <i class="fa-solid fa-circle-info"></i>  Detail
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-primary" onclick='processTicketIncident("<%= i.id %>")'><i class="fa-solid fa-wrench"></i>  Process</button>
+                                                        </td>
+                                                        <!-- <td><a href="" data-toggle="modal" data-target="#myModal-cs"><img src="../css/Logo/bubble-icon.png" alt="customer service"></a></td> -->
+                                                      </tr>
+                                                    <% } %> 
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="sedangDikerjakan" role="tabpanel" aria-labelledby="sedangDikerjakan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table2" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>NIP Pegawai</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tanggal Proses</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                    <% if (i.type == "OPD" && i.status == "Sedang Dikerjakan") { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.nip_pegawai%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID")%></td>
+                                                        <td><%= new Date(i.incident_process_date).toLocaleString("id-ID")%></td>
+                                                        <td><span class="badge badge-pill badge-primary"><%= i.status%></span></td>
+                                                        <td>
+                                                            <% for( let j = 0; j < pegawai.length; j++ ) { %>
+                                                                <% if (pegawai[j].nip == i.nip_pegawai) { %>
+                                                                  <button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'><i class="fa-solid fa-circle-info"></i>  Detail</button>
+                                                                  <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalValidation" data-bs-id="<%= i.id %>" data-bs-nip_pegawai="<%= i.nip_pegawai %>" data-bs-name="<%= pegawai[j].name %>" data-bs-email="<%= pegawai[j].email %>" data-bs-noTicket="<%= i.no_ticket %>" data-bs-ticketID="<%= i.ticketID %>"><i class="fa-solid fa-check"></i>  Complete</button>
+                                                                  <% break %>
+                                                                 <% } %>
+                                                            <% } %>
+                                                        </td>
+                                                        <!-- <td><a href="" data-toggle="modal" data-target="#myModal-cs"><img src="../css/Logo/bubble-icon.png" alt="customer service"></a></td> -->
+                                                      </tr>
+                                                    <% } %> 
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="selesaiDikerjakan" role="tabpanel" aria-labelledby="selesaiDikerjakan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table3" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>NIP Pegawai</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tanggal Selesai</th>
+                                                    <th>Status</th>
+                                                    <th>SLA (%)</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <% var persen100 = 0 %>
+                                            <% var persenDibawah100 = 0 %>
+                                            <% var persen0 = 0 %>
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                    <% if (i.type == "OPD" && i.status == "Selesai Dikerjakan") { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.nip_pegawai%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID") %></td>
+                                                        <td><%= new Date(i.incident_closed_date).toLocaleString("id-ID") %></td>
+                                                        <td><span class="badge badge-pill badge-success"><%= i.status%></span></td>
+                                                        <% var selisih = Math.abs(i.incident_closed_date - i.incident_date) %>
+                                                        <% var selisihHours = Math.floor(selisih / 3600000) %>
+                                                        <% if (i.category == "Colocation Server" || i.category == "Website") { %>
+                                                          <% if (selisihHours <= 672) { %>
+                                                            <% var persen = 100 %>
+                                                          <% }else{ %>
+                                                            <% var persen = 100 - ((selisihHours-672)*0.14) %>
+                                                            <% if (persen < 0) { %>
+                                                              <% var persen = 0 %>
+                                                            <% } %>
+                                                          <% } %>
+                                                        <% }else if(i.category == "Internet"){ %>
+                                                          <% if (selisihHours <= 120) { %>
+                                                            <% var persen = 100 %>
+                                                          <% }else{ %>
+                                                            <% var persen = 100 - ((selisihHours-120)*0.83) %>
+                                                            <% if (persen < 0) { %>
+                                                              <% var persen = 0 %>
+                                                            <% } %>
+                                                          <% } %>
+                                                        <% }else if(i.category == "Email"){ %>
+                                                          <% if (selisihHours <= 168) { %>
+                                                            <% var persen = 100 %>
+                                                          <% }else{ %>
+                                                            <% var persen = 100 - ((selisihHours-168)*0.59) %>
+                                                            <% if (persen < 0) { %>
+                                                              <% var persen = 0 %>
+                                                            <% } %>
+                                                          <% } %>
+                                                        <% }else if(i.category == "Virtual Machine"){ %>
+                                                          <% if (selisihHours <= 336) { %>
+                                                            <% var persen = 100 %>
+                                                          <% }else{ %>
+                                                            <% var persen = 100 - ((selisihHours-336)*0.29) %>
+                                                            <% if (persen < 0) { %>
+                                                              <% var persen = 0 %>
+                                                            <% } %>
+                                                          <% } %>
+                                                        <% } else{ %>
+                                                          <% var persen = 100 %>
+                                                        <% } %>
+
+                                                        <td><%= persen.toFixed(2) %></td>
+                                                        <% if (persen == 100) { %>
+                                                          <% persen100 += 1 %>
+                                                         <% }else if(persen > 0 && persen < 100){ %>
+                                                           <% persenDibawah100 += 1 %>
+                                                         <% }else if(persen == 0){ %>
+                                                           <% persen0 += 1 %>
+                                                         <% } %>
+                                                        <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                          <i class="fa-solid fa-circle-info"></i>  Detail
+                                                        </button>
+                                                        </td>
+                                                        <!-- <td><a href="" data-toggle="modal" data-target="#myModal-cs"><img src="../css/Logo/bubble-icon.png" alt="customer service"></a></td> -->
+                                                      </tr>
+                                                    <% } %> 
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                          <h4>Akumulasi Nilai SLA Pada Ticket Incident Dinas OPD</h4>
+                                          <p>Nilai SLA 100% : <%= persen100 %> Ticket</p>
+                                          <p>Nilai SLA Diatas 0% Dan Dibawah 100% : <%= persenDibawah100 %> Ticket</p>
+                                          <p>Nilai SLA 0% : <%= persen0 %> Ticket</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    
+
+    <!-- Modal Validation -->
+   <div class="modal fade" id="modalValidation" tabindex="-1" aria-labelledby="modalValidation" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalValidation">Validasi Ticket</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="validation-id" name="validation-id">
+          <input type="hidden" id="validation-nip_pegawai" name="validation-nip_pegawai">
+          <input type="hidden" id="validation-name" name="validation-name">
+          <input type="hidden" id="validation-email" name="validation-email">
+          <input type="hidden" id="validation-ticketID" name="validation-ticketID">
+          <div class="mb-3">
+            <label for="validation-noTicket" class="col-form-label">No Ticket :</label>
+            <input type="text" readonly class="form-control" id="validation-noTicket">
+          </div>
+          <div class="mb-3">
+            <label for="root_cause" class="col-form-label">Root Cause :</label>
+            <textarea class="form-control" id="root_cause"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="action" class="col-form-label">Action :</label>
+            <textarea class="form-control" id="action"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" onclick='validationTicketIncident()'>Submit</button>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_admin/script'); %>
+<script type="text/javascript">
+    // document.querySelector(".third").addEventListener('click', function(){
+    //     swal("Our First Alert", "With some body text and success icon!", "success");
+    // });
+    //=====================Modal Validation========================
+    const validationModal = document.getElementById('modalValidation')
+        validationModal.addEventListener('show.bs.modal', event => {
+          // Button that triggered the modal
+          const button = event.relatedTarget
+          // Extract info from data-bs-* attributes
+          const recipient = button.getAttribute('data-bs-id')
+          const recipient1 = button.getAttribute('data-bs-noTicket')
+          const recipient2 = button.getAttribute('data-bs-nip_pegawai')
+          const recipient3 = button.getAttribute('data-bs-name')
+          const recipient4 = button.getAttribute('data-bs-email')
+          const recipient5 = button.getAttribute('data-bs-ticketID')
+          // If necessary, you could initiate an AJAX request here
+          // and then do the updating in a callback.
+          //
+          // Update the modal's content.
+          const modalTitle = validationModal.querySelector('.modal-title')
+          const modalBodyInput = validationModal.querySelector('#validation-id')
+          const modalBodyInput1 = validationModal.querySelector('#validation-noTicket')
+          const modalBodyInput2 = validationModal.querySelector('#validation-nip_pegawai')
+          const modalBodyInput3 = validationModal.querySelector('#validation-name')
+          const modalBodyInput4 = validationModal.querySelector('#validation-email')
+          const modalBodyInput5 = validationModal.querySelector('#validation-ticketID')
+  
+          modalTitle.textContent = `Completed Ticket Incident OPD ${recipient1}`
+          modalBodyInput.value = recipient
+          modalBodyInput1.value = recipient1
+          modalBodyInput2.value = recipient2
+          modalBodyInput3.value = recipient3
+          modalBodyInput4.value = recipient4
+          modalBodyInput5.value = recipient5
+          
+        })
+
+        async function processTicketIncident(id){
+          let incident_process_date = new Date().toISOString();
+          $.ajax({
+              url: `http://localhost:3000/api/update_incTicket/${id}`,
+              type: 'PUT',
+              data: ({ status: "Sedang Dikerjakan", incident_process_date: incident_process_date }),
+              success: function (result) {
+                // location.reload();
+              }
+          });
+          Swal.fire(
+            'Good job!',
+            'Ticket Incident Pegawai Telah Diproses',
+            'success'
+          ).then(function(){ 
+              location.reload();
+              }
+            )
+        }
+
+        async function validationTicketIncident(){
+          let id = $("#validation-id").val();
+          let root_cause = $("#root_cause").val();
+          let action = $("#action").val();
+          let incident_closed_date = new Date().toISOString();
+          $.ajax({
+              url: `http://localhost:3000/api/update_incTicket/${id}`,
+              type: 'PUT',
+              data: ({ root_cause: root_cause, action: action, incident_closed_date: incident_closed_date, status: "Selesai Dikerjakan" }),
+              success: function (result) {
+                // location.reload();
+              }
+          });
+
+          let receiver_nip = $("#validation-nip_pegawai").val();
+          let receiver_name = $("#validation-name").val();
+          let receiver_email = $("#validation-email").val();
+          let no_ticket = $("#validation-noTicket").val();
+          let ticketID = $("#validation-ticketID").val();
+
+          // socket.emit("newUser", idA);
+          socket.emit("validationIncTicket", {
+              receiver_nip: receiver_nip,
+              receiver_name: receiver_name,
+              sender_role: "admin",
+              receiver_email: receiver_email,
+              no_ticket: no_ticket,
+              ticketID: ticketID,
+              text: "Incident Ticket OPD Completed"
+          });
+
+          $.ajax({
+            url: `http://localhost:3000/api/add_notification`,
+            type: 'POST',
+            data: ({ no_ticket: no_ticket, ticketID: ticketID, receiver_role: "pegawai", receiver_nip: receiver_nip, receiver_name: receiver_name, sender_role: "admin", text: "Incident Ticket OPD Completed" }),
+            success: function (result) {
+              // location.reload();
+            }
+          });
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Apakah Ticket Incident Telah Selesai Dikerjakan?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Completed!',
+                    'Ticket Incident Dinas Selesai Dikerjakan',
+                    'success'
+                ).then(function(){ 
+                      location.reload();
+                    }
+                  )
+            }
+        })
+
+
+        }
+
+      function detail(ticketID){
+          $.ajax({
+              url: `http://localhost:3000/homeAdmin/incidentDinas/detail/${ticketID}`,
+              type: 'GET',
+              success: function (result) {
+              location.href=`/homeAdmin/incidentDinas/detail/${ticketID}`
+              // location.reload();
+              }
+          });
+      }
+</script>
+</body>
+</html>
+

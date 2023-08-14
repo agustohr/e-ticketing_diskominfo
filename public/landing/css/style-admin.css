@@ -1,0 +1,321 @@
+/* halaman home*/
+
+body{
+    background-image: url(../CSS/Logo/bg.png);
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+.navbar{
+    background: #0AA1DD;
+    left:0;
+    top:0;
+}
+  
+ul {
+    list-style-type: none;
+    margin: 0;
+    background-color: #0AA1DD;
+}
+  
+li {
+    float: right;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+li a:hover:not(.active) {
+    background-color: #bcd4f28c;
+    border-radius: 10px;
+}
+  
+li img{
+    width: 30px;
+}
+
+.navbar h4{
+    margin-left: 47%;
+    float: left;
+    text-align: center;
+}
+
+.banner{
+    text-align: center;
+}
+
+.modal-content{
+    background-image: url(../CSS/Logo/bg.png);
+    background-size: cover;
+}
+
+.logo img{
+    margin-top: 6%;
+    width: 150px;
+}
+
+.e{
+    color: #0D0AB2;
+    font-weight: 700;
+    font-size: 30px;
+    text-shadow: #014078;
+}
+
+.ticketing{
+    color: #F75717;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.menu-home{
+    margin: 0% 15% 0% 20%;
+}
+
+.menu-home img {
+    width: 40px;
+    margin: 1%;
+}
+
+.request_button img {
+    width: 50px;
+    margin: 1%;
+}
+
+.menu-home button{
+    margin: 2% 3% 2% 3%;
+    padding: 3% 4% 3% 4%;
+    border-radius: 10%;
+    transition-duration: 0.4s;
+    width: 25%;
+}
+
+.menu-home button{
+    background-color: #2155cd87;
+    color: black;
+    border: none;
+}
+.menu-home button:hover {
+    background-color: #2155cd;
+    color: white;
+}
+
+.title-akun {
+    margin: 4% 4% 4% 4%;
+}
+
+.modal-title-akun {
+    margin: 3% 3% 3% 3%; 
+}
+
+.modal-body-akun{
+    background-color: #0AA1DD;
+    background-size: cover;
+    color: white;
+    text-align: center;
+}
+
+.foto{
+    margin: 5% 2% 10% 2%;
+}
+
+.data-akun {
+    text-align: left;
+    margin-left: 30%;
+}
+
+.keluar{
+    margin-top: 5%;
+    margin-left: 70%;
+}
+
+.list-notifikasi img {
+    width: 50px;
+}
+
+.cs{
+    float: right;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+}
+
+.cs img{
+    width: 60%;
+}
+
+/*halaman incident dan request*/
+
+.manage-ticket {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15pt;
+    margin-bottom: 10%;
+}
+
+.manage-ticket label{
+    margin-top: 0%;
+    font-size: 10pt;
+}
+
+.manage-ticket button{
+    padding: 1%;
+    width: 25%;
+    border-radius: 5px;
+    border-color: #2155cd87;
+    border-width: 1px;
+    background-color: #2155cd87;
+}
+
+.manage-ticket button img{
+    width: 20px;
+    margin: 2%;
+}
+
+#sort{
+    width: 60%;
+    padding: 2%;
+    border-color: #2155cd87;
+    border-radius: 5px;
+    background-color: #2155cd87;
+}
+
+#sort option {
+    font-size: 10pt;
+}
+
+#searching {
+    margin-bottom: 60%;
+    border-radius: 20px;
+    border-color: #2155cd87;
+    background-color: #2155cd87;
+    border-style:outset;
+    border-width: 1px;
+    padding: 1%;
+    width: 70%;
+}
+
+#searching::-webkit-input-placeholder{
+    padding-left: 10%;
+    color: rgba(0, 0, 0, 0.502);
+}
+
+
+.tabel-insiden{
+    margin: 20% 25% 0% 25%;
+    width: fit-content;
+}
+
+#list-tiket-insiden {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+#list-tiket-insiden td, #list-tiket-insiden th {
+    padding: 8px;
+    font-size: 15px;
+}
+  
+#list-tiket-insiden tr{background-color: #f2f2f2;}
+    
+#list-tiket-insiden th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #0AA1DD;
+    color: white;
+}
+
+#list-tiket-insiden th:first-child{
+    border-top-left-radius: 5px;
+}
+
+#list-tiket-insiden th:last-child{
+    border-top-right-radius: 5px;
+}
+
+#list-tiket-insiden tbody tr:last-of-type{
+    border-bottom: 3px solid #0AA1DD;
+}
+
+.list-tiket-insiden button{
+    align-items: center;
+}
+
+.tombol-validasi{
+    background-color: #0AA1DD;
+    border-radius: 5px;
+    border-color: #0AA1DD;
+    width: 60px;
+}
+
+.tombol-validasi img{
+    width: 20px;
+    margin: 1%;
+}
+
+.tombol-validasi:hover{
+    background-color: #0880b0;
+    border-color: #0880b0;
+}
+
+.tombol-silang{
+    margin-top: 3%;
+    background-color: #adadad;
+    border-radius: 5px;
+    border-color: #adadad;
+    width: 60px;
+}
+
+.tombol-silang img{
+    width: 15px;
+    margin: 1%;
+}
+
+.tombol-silang:hover {
+    background-color: #8a8a8a;
+    border-color: #8a8a8a;
+}
+
+.customer-service input[type=text]{
+    width: 100%;
+    padding: 10px 18px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.customer-service input[type=submit] {
+    width: 100%;
+    background-color: #0060B9;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.customer-service input[type=submit]:hover {
+    background-color: #014078;
+}
+
+#deskripsi {
+    width: 100%;
+    height: 100px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Report Ticket</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Report Ticket</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/homeAdmin">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Report</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Data Ticket</h2>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Select Month
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="/homeAdmin/reportThisMonth" target="_blank">This Month</a></li>
+                                  <li><a class="dropdown-item" href="/homeAdmin/reportLastMonth" target="_blank">Last Month</a></li>
+                                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#customMonth">Custom Month</a></li>
+                                </ul>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="customMonth" tabindex="-1" aria-labelledby="customMonthLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="customMonthLabel">Custom Month</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/homeAdmin/reportCustomMonth" method="post">
+                                            <div class="mb-3">
+                                                <label for="month" class="col-form-label">Pilih Bulan :</label><br>
+                                                <select class="form-select" name="month" id="month" required>
+                                                  <option selected value="0">Januari</option>
+                                                  <option value="1">Febuari</option>
+                                                  <option value="2">Maret</option>
+                                                  <option value="3">April</option>
+                                                  <option value="4">Mei</option>
+                                                  <option value="5">Juni</option>
+                                                  <option value="6">Juli</option>
+                                                  <option value="7">Agustus</option>
+                                                  <option value="8">September</option>
+                                                  <option value="9">Oktober</option>
+                                                  <option value="10">November</option>
+                                                  <option value="11">Desember</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="year" class="col-form-label">Pilih Tahun :</label><br>
+                                                <input type="number" class="form-control" id="year" name="year" min="2000" max="3000" value="<%= new Date().getFullYear() %>">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Generate</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                              
+                            
+                        </div>
+            
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="incidentTicket-tab" data-toggle="tab" data-target="#incidentTicket" type="button" role="tab" aria-controls="incidentTicket" aria-selected="true">Incident Ticket</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="requestTicket-tab" data-toggle="tab" data-target="#requestTicket" type="button" role="tab" aria-controls="requestTicket" aria-selected="false">Request Ticket</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="incidentTicket" role="tabpanel" aria-labelledby="incidentTicket-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>NIP Pegawai</th>
+                                                    <th>Type</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tanggal Selesai</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.nip_pegawai%></td>
+                                                        <td><%= i.type%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID") %></td>
+                                                        <% if (i.incident_closed_date != null) { %>
+                                                            <td><%= new Date(i.incident_closed_date).toLocaleString("id-ID") %></td>
+                                                        <% }else { %> 
+                                                            <td></td>
+                                                        <% } %>
+
+                                                        <% if (i.status == "Sedang Dikerjakan") { %>
+                                                            <td><span class="badge text-bg-primary"><%= i.status%></span></td>
+                                                        <% }else if (i.status == "Selesai Dikerjakan") { %>
+                                                            <td><span class="badge text-bg-success"><%= i.status%></span></td>
+                                                        <% } else { %> 
+                                                            <td><span class="badge text-bg-danger"><%= i.status%></span></td>
+                                                        <% } %>
+                                                      </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="requestTicket" role="tabpanel" aria-labelledby="requestTicket-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table2" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>NIP Pegawai</th>
+                                                    <th>Type</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tanggal Selesai</th>
+                                                    <th>Lampiran</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% reqTicket.forEach((i,index)=> { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.nip_pegawai%></td>
+                                                        <td><%= i.type%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.request_date).toLocaleString("id-ID") %></td>
+                                                        <% if (i.request_closed_date != null) { %>
+                                                            <td><%= new Date(i.request_closed_date).toLocaleString("id-ID") %></td>
+                                                        <% }else { %> 
+                                                            <td></td>
+                                                        <% } %>
+                                                        
+                                                        <td><a href="/<%= i.lampiran%>" target="_blank" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> View</a></td>
+                                                        <% if (i.status == "Sedang Dikerjakan") { %>
+                                                            <td><span class="badge text-bg-primary"><%= i.status%></span></td>
+                                                        <% }else if (i.status == "Selesai Dikerjakan") { %>
+                                                            <td><span class="badge text-bg-success"><%= i.status%></span></td>
+                                                        <% } else { %> 
+                                                            <td><span class="badge text-bg-danger"><%= i.status%></span></td>
+                                                        <% } %>
+                                                      </tr>
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    
+
+
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_admin/script'); %>
+</body>
+</html>
+

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Ticket Pegawai | Incident</title>
+    <%- include('partials_pegawai/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_pegawai/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_pegawai/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Ticket Incident Pegawai</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/home">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          Ticket Pegawai
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Incident</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Data Ticket Incident Pegawai</h2>
+                            <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#tambahTicket">
+                                <i class="fa-solid fa-plus"></i> Tambah Ticket
+                            </button>
+                        </div>
+            
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="belumDikerjakan-tab" data-toggle="tab" data-target="#belumDikerjakan" type="button" role="tab" aria-controls="belumDikerjakan" aria-selected="true">Belum Dikerjakan</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="sedangDikerjakan-tab" data-toggle="tab" data-target="#sedangDikerjakan" type="button" role="tab" aria-controls="sedangDikerjakan" aria-selected="false">Sedang Dikerjakan</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="selesaiDikerjakan-tab" data-toggle="tab" data-target="#selesaiDikerjakan" type="button" role="tab" aria-controls="selesaiDikerjakan" aria-selected="false">Selesai Dikerjakan</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="belumDikerjakan" role="tabpanel" aria-labelledby="belumDikerjakan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                    <% if (i.nip_pegawai == users.nip && i.type == "Pegawai" && i.status == "Belum Dikerjakan") { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID")%></td>
+                                                        <td><span class="badge badge-pill badge-danger"><%= i.status%></span></td>
+                                                        <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                          <i class="fa-solid fa-circle-info"></i>  Detail
+                                                        </button>
+                                                        </td>
+                                                        <!-- <td><a href="" data-toggle="modal" data-target="#myModal-cs"><img src="../css/Logo/bubble-icon.png" alt="customer service"></a></td> -->
+                                                      </tr>
+                                                    <% } %> 
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="sedangDikerjakan" role="tabpanel" aria-labelledby="sedangDikerjakan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table2" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tanggal Proses</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                    <% if (i.nip_pegawai == users.nip && i.type == "Pegawai" && i.status == "Sedang Dikerjakan") { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID")%></td>
+                                                        <td><%= new Date(i.incident_process_date).toLocaleString("id-ID")%></td>
+                                                        <td><span class="badge badge-pill badge-primary"><%= i.status%></span></td>
+                                                        <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                          <i class="fa-solid fa-circle-info"></i>  Detail
+                                                        </button>
+                                                        </td>
+                                                        <!-- <td><a href="" data-toggle="modal" data-target="#myModal-cs"><img src="../css/Logo/bubble-icon.png" alt="customer service"></a></td> -->
+                                                      </tr>
+                                                    <% } %> 
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="selesaiDikerjakan" role="tabpanel" aria-labelledby="selesaiDikerjakan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table3" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No Tiket</th>
+                                                    <th>Kategori</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tanggal Selesai</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% incTicket.forEach((i,index)=> { %>
+                                                    <% if (i.nip_pegawai == users.nip && i.type == "Pegawai" && i.status == "Selesai Dikerjakan") { %>
+                                                      <tr>
+                                                        <td><%= i.no_ticket%></td>
+                                                        <td><%= i.category%></td>
+                                                        <td><%= i.deskripsi%></td>
+                                                        <td><%= new Date(i.incident_date).toLocaleString("id-ID") %></td>
+                                                        <td><%= new Date(i.incident_closed_date).toLocaleString("id-ID") %></td>
+                                                        <td><span class="badge badge-pill badge-success"><%= i.status%></span></td>
+                                                        <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                          <i class="fa-solid fa-circle-info"></i>  Detail
+                                                        </button>
+                                                        </td>
+                                                        <!-- <td><a href="" data-toggle="modal" data-target="#myModal-cs"><img src="../css/Logo/bubble-icon.png" alt="customer service"></a></td> -->
+                                                      </tr>
+                                                    <% } %> 
+                                                  <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    <div class="modal fade" id="tambahTicket" tabindex="-1" aria-labelledby="tambahTicket" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tambahTicket">Tambah Ticket Incident</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" onsubmit="return false">
+                <div class="mb-3">
+                  <label for="category" class="col-form-label">Pilih Kategori :</label><br>
+                  <select class="form-select" name="category" id="category" onchange='checkCategory(this.value)'>
+                    <option selected value="Presensi">Presensi</option>
+                    <option value="Presensi">Email</option>
+                    <option value="Others">Others</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="otherCategory" id="otherCategory" placeholder="Masukkan Kategori" style='display:none'/>
+                  <p id="alertInputCategory" style='display:none'>Harap masukkan kategori</p>
+                </div>
+                <div class="mb-3">
+                  <label for="deskripsi" class="col-form-label">Deskripsi :</label>
+                  <textarea class="form-control" id="deskripsi" name="deskripsi" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="lampiran" class="col-form-label">Lampiran (image) :</label>
+                  <input type="file" class="form-control" id="lampiran" name="lampiran" accept=".jpg, .jpeg, .png">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success" onclick='addTicketIncident("<%= incTicket.length+1 %>", "<%= users.nip %>", "<%= users.name %>")'>Kirim</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Footer -->
+    <%- include('partials_pegawai/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_pegawai/script'); %>
+<script type="text/javascript">
+    function checkCategory(val){
+      var other_category=document.getElementById('otherCategory');
+      if(val=='Others'){
+        other_category.style.display='block';
+      }else { 
+        other_category.style.display='none';
+      }
+    }
+
+    async function addTicketIncident(id, nip_pegawai, name) {
+        let type = "Pegawai"
+        let no_ticket = `INC-PEG-${id}`
+        let category = $("#category").val();
+        let deskripsi = $("#deskripsi").val();
+        let incident_date = new Date().toISOString();
+        let status = "Belum Dikerjakan"
+        let namaFile = lampiran.files[0];
+        console.log(namaFile)
+        console.log(no_ticket)
+        console.log(nip_pegawai)
+        console.log(deskripsi)
+        console.log(incident_date)
+        console.log(status)
+
+        var alerFillCategory=document.getElementById('alertInputCategory');
+
+        if (category == "Others") {
+          category = $("#otherCategory").val();
+          if (category == "") {
+            alerFillCategory.style.display='block';
+          }
+        }
+        console.log(category)
+
+        const data = new FormData();
+
+        data.append("nip_pegawai", nip_pegawai)
+        data.append("no_ticket", no_ticket)
+        data.append("type", type)
+        data.append("category", category)
+        data.append("deskripsi", deskripsi)
+        data.append("incident_date", incident_date)
+        data.append("status", status)
+        data.append("lampiran", namaFile)
+
+        if (deskripsi == "" || category == "" ) {
+          return false
+        }else{
+          if (namaFile == undefined) {
+            await fetch("http://localhost:3000/api/add_incTicket", {
+              method: 'POST',
+              body: `no_ticket=${no_ticket}&type=${type}&category=${category}&deskripsi=${deskripsi}&nip_pegawai=${nip_pegawai}&incident_date=${incident_date}&status=${status}`,
+              headers: 
+              {
+                  "Content-Type": "application/x-www-form-urlencoded"
+              }
+            }).then(async (response) => {
+                if (response.status === 400) {
+                  alert("No Tiket Tidak Boleh Kosong!")
+                }
+                if (response.status != 400) {
+                    // location.reload();
+                }
+                return response
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+          }else{
+            await fetch("http://localhost:3000/api/add_incTicketLampiran", {
+              method: 'POST',
+              body: data,
+            }).then(async (response) => {
+                if (response.status === 500) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Format File Wajib Image (png, jpg, jpeg) dan size maksimal 1mb',
+                    showConfirmButton: true,
+                  }).then(function(){ 
+                    location.reload();
+                    }
+                  )
+                }
+                if (response.status != 500) {
+                  socket.emit("newIncTicket", {
+                      sender_nip: nip_pegawai,
+                      sender_name: name,
+                      no_ticket: no_ticket,
+                      text: "New Incident Ticket Pegawai",
+                  });
+
+                  $.ajax({
+                    url: `http://localhost:3000/api/add_notification`,
+                    type: 'POST',
+                    data: ({ no_ticket: no_ticket, receiver_role: "admin", sender_role: "pegawai", sender_nip: nip_pegawai, sender_name: name, text: "New Incident Ticket Pegawai" }),
+                    success: function (result) {
+                      // location.reload();
+                    }
+                  });
+                  
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket Incident Pegawai Telah Ditambahkan',
+                    showConfirmButton: true
+                  }).then(function(){ 
+                    location.reload();
+                    }
+                  )
+                }
+                return response
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+          }
+
+          
+        }
+
+        
+      }
+
+      function detail(ticketID){
+          $.ajax({
+              url: `http://localhost:3000/home/incident/detail/${ticketID}`,
+              type: 'GET',
+              success: function (result) {
+              location.href=`/home/incident/detail/${ticketID}`
+              // location.reload();
+              }
+          });
+      }
+</script>
+</body>
+</html>
+

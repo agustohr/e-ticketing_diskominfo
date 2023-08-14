@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Akun Dinas OPD</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Akun Dinas OPD</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/homeAdmin">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          Account
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Dinas OPD</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Data Akun Dinas OPD</h2>
+                        </div>
+            
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="permintaan-tab" data-toggle="tab" data-target="#permintaan" type="button" role="tab" aria-controls="permintaan" aria-selected="true">Permintaan</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="diterima-tab" data-toggle="tab" data-target="#diterima" type="button" role="tab" aria-controls="diterima" aria-selected="false">Diterima</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="permintaan" role="tabpanel" aria-labelledby="permintaan-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama PIC</th>
+                                                    <th>NIP PIC</th>
+                                                    <th>Email</th>
+                                                    <th>Dinas</th>
+                                                    <th>Surat Permohonan</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% akunDinas.forEach((i,index)=> { %>
+                                                    <% if (i.status_akun_dinas == "request") { %>
+                                                      <tr>
+                                                        <td><%= i.name%></td>
+                                                        <td><%= i.nip%></td>
+                                                        <td><%= i.email%></td>
+                                                        <td><%= i.dinas%></td>
+                                                        <td><a href="/<%= i.surat_permohonan%>" target="_blank" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> View</a></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-sm btn-primary" onclick='approvedAkun("<%= i.id%>", "<%= i.nip%>", "<%= i.name%>", "<%= i.email%>")'>Approved</button>
+                                                            <button type="button" class="btn btn-sm btn-danger" onclick='rejectedAkun("<%= i.id%>", "<%= i.nip%>", "<%= i.name%>", "<%= i.email%>")'>Reject</button>
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="diterima" role="tabpanel" aria-labelledby="diterima-tab">
+                                    <div class="hoverable-data-table">
+                                        <table id="hoverable-data-table2" class="table table-hover nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama PIC</th>
+                                                    <th>NIP PIC</th>
+                                                    <th>Email</th>
+                                                    <th>Dinas</th>
+                                                    <th>Surat Permohonan</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                                <% akunDinas.forEach((i,index)=> { %>
+                                                    <% if (i.status_akun_dinas == "approved") { %>
+                                                      <tr>
+                                                        <td><%= i.name%></td>
+                                                        <td><%= i.nip%></td>
+                                                        <td><%= i.email%></td>
+                                                        <td><%= i.dinas%></td>
+                                                        <td><a href="/<%= i.surat_permohonan%>" download="pdf" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> Download</a></td>
+                                                    </tr>
+                                                    <% } %>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    
+
+   
+
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_admin/script'); %>
+<script type="text/javascript">
+    
+    async function approvedAkun(id, nip, name, email){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Anda yakin ingin mensetujui permohonan pembuatan akun dinas OPD?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:3000/api/approvedDinas/${id}`,
+                    type: 'PUT',
+                    data: ({ status_akun_dinas: "approved" }),
+                    success: function (result) {
+                        socket.emit("approveAkunDinas", {
+                            receiver_nip: nip,
+                            receiver_name: name,
+                            sender_role: "admin",
+                            receiver_email: email,
+                            text: "Akun Dinas OPD Approved"
+                        });
+                    // location.reload();
+                    }
+                });
+
+                $.ajax({
+                    url: `http://localhost:3000/api/add_notification`,
+                    type: 'POST',
+                    data: ({ receiver_role: "pegawai", receiver_nip: nip, receiver_name: name, sender_role: "admin", text: "Akun Dinas OPD Approved" }),
+                    success: function (result) {
+                        // location.reload();
+                    }
+                });
+                Swal.fire(
+                    'Approved!',
+                    'Akun dinas OPD telah Disetujui',
+                    'success'
+                ).then(function(){ 
+                    location.reload();
+                }
+                )
+            }
+        })
+        
+    }
+
+    async function rejectedAkun(id, nip, name, email){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Anda yakin ingin menolak permohonan pembuatan akun dinas OPD?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:3000/api/update_user/${id}`,
+                    type: 'PUT',
+                    data: ({ status_akun_dinas: "rejected" }),
+                    success: function (result) {
+                        socket.emit("rejectAkunDinas", {
+                            receiver_nip: nip,
+                            receiver_name: name,
+                            sender_role: "admin",
+                            receiver_email: email,
+                            text: "Akun Dinas OPD Rejected"
+                        });
+                    // location.reload();
+                    }
+                });
+
+                $.ajax({
+                    url: `http://localhost:3000/api/add_notification`,
+                    type: 'POST',
+                    data: ({ receiver_role: "pegawai", receiver_nip: nip, receiver_name: name, sender_role: "admin", text: "Akun Dinas OPD Rejected" }),
+                    success: function (result) {
+                        // location.reload();
+                    }
+                });
+                Swal.fire(
+                    'Rejected!',
+                    'Akun dinas OPD telah Ditolak',
+                    'error'
+                ).then(function(){ 
+                    location.reload();
+                }
+                )
+            }
+        })
+        
+    }
+
+</script>
+</body>
+</html>
+

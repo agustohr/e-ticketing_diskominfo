@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Detail Ticket | Request</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Ticket Request <%= reqTicket.type%></h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/homeAdmin">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          Ticket <%= reqTicket.type%>
+                        </li>
+                        <li class="breadcrumb-item">
+                            Request
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Detail</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Detail Ticket Request <%= reqTicket.type%></h2>
+                        </div>
+            
+                        <div class="card-body">
+                            <ol class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                    <div class="fw-bold">No Ticket</div>
+                                    <%= reqTicket.no_ticket%>
+                                  </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">NIP Pegawai</div>
+                                      <%= reqTicket.nip_pegawai%>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Dinas OPD</div>
+                                    <% pegawai.forEach((i, index) => { %>
+                                     <% if (i.nip == reqTicket.nip_pegawai) { %>
+                                      <%= i.dinas %>
+                                     <% } %>
+                                    <% }) %>
+                                  </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Tipe</div>
+                                    <%= reqTicket.type%>
+                                  </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Ketegori</div>
+                                    <%= reqTicket.category%>
+                                  </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Deskripsi</div>
+                                        <%= reqTicket.deskripsi%>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Tanggal</div>
+                                        <%= new Date(reqTicket.request_date).toLocaleString("id-ID") %>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Status</div>
+                                        <%= reqTicket.status%>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Surat Permohonan Request</div>
+                                        <a href="/<%= reqTicket.lampiran%>" target="_blank" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> View</a>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                      <div class="fw-bold">Tanggal Proses</div>
+                                      <% if (reqTicket.request_process_date != null) { %>
+                                        <%= new Date(reqTicket.request_process_date).toLocaleString("id-ID") %>
+                                      <% } %> 
+                                  </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Tanggal Selesai</div>
+                                        <% if (reqTicket.request_closed_date != null) { %>
+                                          <%= new Date(reqTicket.request_closed_date).toLocaleString("id-ID") %>
+                                        <% } %> 
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Aksi / Catatan</div>
+                                        <%= reqTicket.action%>
+                                    </div>
+                                </li>
+                              </ol>
+                        </div>
+
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Pesan</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="chat-right-content" id="chat-right-content" data-simplebar>
+
+                                <% message.forEach((i,index)=> { %>
+                                  <% if (i.no_ticket == reqTicket.no_ticket) { %>
+                                    <% if (i.receiver_role == "admin") { %>
+                                      <div class="media media-chat media-left">
+                                        <img class="rounded-circle mr-3" src="/assets/img/user/icon_account.jpg" alt="Image">
+                                        <div class="media-body">
+                                          <p class="fw-bold"><%= i.sender_name %></p>
+                                          <p class="message"><%= i.text %></p>
+                                          <div class="date-time"><%= new Date(i.createdAt).toLocaleString("id-ID") %></div>
+                                        </div>
+                                      </div>
+                                    <% }else if(i.sender_role == "admin"){ %>
+                                      <div class="media media-chat media-right">
+                                        <div class="media-body">
+                                          <p class="fw-bold">Admin</p>
+                                          <p class="message"><%= i.text %></p>
+                                          <div class="date-time"><%= new Date(i.createdAt).toLocaleString("id-ID") %></div>
+                                        </div>
+                                        <img class="rounded-circle ml-3" src="/assets/img/user/icon_account.jpg" alt="Image">
+                                      </div>
+                                    <% } %>
+                                  <% } %>
+                                <% }) %>
+
+                                <div id="listMessage">
+
+                                </div>
+                      
+                              </div>
+                              <div class="pt-4 pt-3 mt-4 border-top">
+                                <div class="form-group">
+                                  <textarea class="form-control" id="text" rows="3" placeholder="Type your message here"></textarea>
+                                </div>
+                      
+                                <!-- <div class="form-group">
+                                  <label for="exampleFormControlFile1">Masukkan lampiran jika ada</label>
+                                  <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                </div> -->
+                      
+                                <div class="form-group">
+                                  <% var recName %>
+                                  <% pegawai.forEach((i, index) => { %>
+                                   <% if (i.nip == reqTicket.nip_pegawai) { %>
+                                    <% recName = i.name %>
+                                    <% recEmail = i.email %>
+                                   <% } %>
+                                  <% }) %>
+                                  <button type="button" class="btn btn-primary btn-default" onclick='sendMessage("<%= reqTicket.no_ticket%>", "<%= reqTicket.ticketID%>", "<%= reqTicket.nip_pegawai%>", "<%= recName%>", "<%= recEmail%>")'>Kirim</button>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <%- include('partials_admin/script'); %>
+
+<script type="text/javascript">
+
+let listMessagePegawai = document.getElementById('listMessage');
+
+socket.on("getNewReqMessage_pegawai-admin", (data) => {
+  listMessagePegawai.innerHTML += 
+    `<div class="media media-chat media-left">
+      <img class="rounded-circle mr-3" src="/assets/img/user/icon_account.jpg" alt="Image">
+      <div class="media-body">
+        <p class="fw-bold">${data.sender_name}</p>
+        <p class="message">${data.text}</p>
+        <div class="date-time">${new Date().toLocaleString("id-ID")}</div>
+      </div>
+    </div>`
+    // $("#newAlert").empty();
+    // $("#newAlert").append("new");
+});
+
+async function sendMessage(no_ticket, ticketID, receiver_nip, receiver_name, receiver_email) {
+  const textarea = document.getElementById('text');
+  const text = textarea.value;
+  // let text = $("#text").val();
+  console.log(text)
+
+  if (text) {
+    let listMessageAdmin = document.getElementById('listMessage');
+
+    listMessageAdmin.innerHTML += 
+        `<div class="media media-chat media-right">
+          <div class="media-body">
+            <p class="fw-bold">Admin</p>
+            <p class="message">${text}</p>
+            <div class="date-time">${new Date().toLocaleString("id-ID")}</div>
+          </div>
+          <img class="rounded-circle ml-3" src="/assets/img/user/icon_account.jpg" alt="Image">
+        </div>`
+
+    $.ajax({
+      url: `http://localhost:3000/api/add_notification`,
+      type: 'POST',
+      data: ({ no_ticket: no_ticket, ticketID: ticketID, receiver_role: "pegawai", sender_role: "admin", receiver_nip: receiver_nip, receiver_name: receiver_name, text: "New Message" }),
+      success: function (result) {
+        // location.reload();
+      }
+    });
+
+    $.ajax({
+      url: `http://localhost:3000/api/add_message`,
+      type: 'POST',
+      data: ({ no_ticket: no_ticket, receiver_role: "pegawai", sender_role: "admin", receiver_nip: receiver_nip, receiver_name: receiver_name, text: text }),
+      success: function (result) {
+        socket.emit("newReqMessage_admin-pegawai", {
+            sender_role: "Admin",
+              receiver_nip: receiver_nip,
+              receiver_name: receiver_name,
+              receiver_email: receiver_email,
+              no_ticket: no_ticket,
+              ticketID: ticketID,
+              text: text,
+        });
+        // location.reload();
+      }
+    });
+  }
+
+  textarea.value = '';
+  
+}
+
+</script>
+</body>
+</html>
+

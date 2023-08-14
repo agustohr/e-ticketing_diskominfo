@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Ticket Dinas | Request</title>
+    <%- include('partials_pegawai/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_pegawai/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_pegawai/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Ticket Request Dinas</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/home">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          Ticket Dinas
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Request</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <% if (users.is_dinas == false) { %>
+                            <div class="error-wrapper rounded border bg-white px-5">
+                                <div class="justify-content-center align-items-center text-center">
+                                    <div class="">
+                                        <h1 class="text-primary bold">Akun Anda Belum Terdaftar Akun OPD</h1>
+                                        <h5 class="pt-4 pb-5 error-subtitle">Silakan Melakukan Pendaftaran Akun OPD Dengan Klik Tombol Dibawah ini</h5>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regAkunDinas">Daftar Akun OPD</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <h5>Akun anda bukan akun dinas, silakan mendaftar dengan mengklik tombol dibawah ini</h5>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regAkunDinas">Daftar Akun Dinas</button> -->
+                        <% } else if(users.is_approved == false){ %>
+                            <div class="error-wrapper rounded border bg-white px-5">
+                                <div class="justify-content-center align-items-center text-center">
+                                    <div class="">
+                                        <h1 class="text-primary bold">Permohonan Pendaftaran Akun OPD Telah Dikirim</h1>
+                                        <h5 class="pt-4 pb-5 error-subtitle">Mohon Menunggu Hingga Akun Anda Approved Oleh Admin</h5>
+                                        <a href="/home" class="btn btn-primary btn-pill">Back to Home</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <h5>Mohon Menunggu Hingga Akun Anda Approved Oleh Admin</h5> -->
+                        <% }else{ %>
+                            <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                                <h2>Data Ticket Request Pegawai</h2>
+                                <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#tambahTicket">
+                                    <i class="fa-solid fa-plus"></i> Tambah Ticket
+                                </button>
+                            </div>
+                
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="belumDikerjakan-tab" data-toggle="tab" data-target="#belumDikerjakan" type="button" role="tab" aria-controls="belumDikerjakan" aria-selected="true">Belum Dikerjakan</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="sedangDikerjakan-tab" data-toggle="tab" data-target="#sedangDikerjakan" type="button" role="tab" aria-controls="sedangDikerjakan" aria-selected="false">Sedang Dikerjakan</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="selesaiDikerjakan-tab" data-toggle="tab" data-target="#selesaiDikerjakan" type="button" role="tab" aria-controls="selesaiDikerjakan" aria-selected="false">Selesai Dikerjakan</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="belumDikerjakan" role="tabpanel" aria-labelledby="belumDikerjakan-tab">
+                                        <div class="hoverable-data-table">
+                                            <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No Tiket</th>
+                                                        <th>Kategori</th>
+                                                        <th>Deskripsi</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Lampiran</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                        
+                                                <tbody>
+                                                    <% reqTicket.forEach((i,index)=> { %>
+                                                        <% if (i.nip_pegawai == users.nip && i.type == "OPD" && i.status == "Belum Dikerjakan") { %>
+                                                            <tr>
+                                                                <td><%= i.no_ticket%></td>
+                                                                <td><%= i.category%></td>
+                                                                <td><%= i.deskripsi%></td>
+                                                                <td><%= new Date(i.request_date).toLocaleString("id-ID")%></td>
+                                                                <td><a href="/<%= i.lampiran%>" target="_blank" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> View</a></td>
+                                                                <td><span class="badge badge-pill badge-danger"><%= i.status%></span></td>
+                                                                <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                                    <i class="fa-solid fa-circle-info"></i>  Detail</button>
+                                                                </td>
+                                                            </tr>
+                                                        <% } %> 
+                                                    <% }) %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="sedangDikerjakan" role="tabpanel" aria-labelledby="sedangDikerjakan-tab">
+                                        <div class="hoverable-data-table">
+                                            <table id="hoverable-data-table2" class="table table-hover nowrap" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No Tiket</th>
+                                                        <th>Kategori</th>
+                                                        <th>Deskripsi</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Tanggal Proses</th>
+                                                        <th>Lampiran</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                        
+                                                <tbody>
+                                                    <% reqTicket.forEach((i,index)=> { %>
+                                                        <% if (i.nip_pegawai == users.nip && i.type == "OPD" && i.status == "Sedang Dikerjakan") { %>
+                                                            <tr>
+                                                                <td><%= i.no_ticket%></td>
+                                                                <td><%= i.category%></td>
+                                                                <td><%= i.deskripsi%></td>
+                                                                <td><%= new Date(i.request_date).toLocaleString("id-ID")%></td>
+                                                                <td><%= new Date(i.request_process_date).toLocaleString("id-ID")%></td>
+                                                                <td><a href="/<%= i.lampiran%>" download="pdf" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> View</a></td>
+                                                                <td><span class="badge badge-pill badge-primary"><%= i.status%></span></td>
+                                                                <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                                    <i class="fa-solid fa-circle-info"></i>  Detail</button>
+                                                                </td>
+                                                            </tr>
+                                                        <% } %> 
+                                                      <% }) %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="selesaiDikerjakan" role="tabpanel" aria-labelledby="selesaiDikerjakan-tab">
+                                        <div class="hoverable-data-table">
+                                            <table id="hoverable-data-table3" class="table table-hover nowrap" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No Tiket</th>
+                                                        <th>Kategori</th>
+                                                        <th>Deskripsi</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Lampiran</th>
+                                                        <th>Catatan</th>
+                                                        <th>Tanggal Selesai</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                        
+                                                <tbody>
+                                                    <% reqTicket.forEach((i,index)=> { %>
+                                                        <% if (i.nip_pegawai == users.nip && i.type == "OPD" && i.status == "Selesai Dikerjakan") { %>
+                                                            <tr>
+                                                                <td><%= i.no_ticket%></td>
+                                                                <td><%= i.category%></td>
+                                                                <td><%= i.deskripsi%></td>
+                                                                <td><%= new Date(i.request_date).toLocaleString("id-ID")%></td>
+                                                                <td><a href="/<%= i.lampiran%>" target="_blank" type="button" class="btn btn-sm btn-primary"><i class="fa-solid fa-print"></i> View</a></td>
+                                                                <td><%= i.action%></td>
+                                                                <td><%= new Date(i.request_closed_date).toLocaleString("id-ID")%></td>
+                                                                <td><span class="badge badge-pill badge-success"><%= i.status%></span></td>
+                                                                <td><button type="button" class="btn btn-sm btn-primary" onclick='detail("<%= i.ticketID %>")'>
+                                                                    <i class="fa-solid fa-circle-info"></i>  Detail</button>
+                                                                </td>
+                                                            </tr>
+                                                        <% } %> 
+                                                      <% }) %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        <% } %>
+                        
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    <!-- Add Ticket Request -->
+    <div class="modal fade" id="tambahTicket" tabindex="-1" aria-labelledby="tambahTicket" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tambahTicket">Tambah Ticket Request</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" onsubmit="return false">
+                <div class="mb-3">
+                  <label for="category" class="col-form-label">Pilih Kategori :</label><br>
+                  <select class="form-select" name="category" id="category" onchange='checkCategory(this.value)'>
+                    <option selected value="Colocation Server">Colocation Server</option>
+                    <option value="Internet">Internet</option>
+                    <option value="Pointing Domain">Pointing Domain</option>
+                    <option value="Email">Email</option>
+                    <option value="Bimbingan Teknologi">Bimbingan Teknologi</option>
+                    <option value="Virtual Machine">Virtual Machine</option>
+                    <option value="Others">Others</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="otherCategory" id="otherCategory" placeholder="Masukkan Kategori" style='display:none'/>
+                  <p id="alertInputCategory" style='display:none'>Harap masukkan kategori</p>
+                </div>
+                <div class="mb-3">
+                  <label for="deskripsi" class="col-form-label">Deskripsi :</label>
+                  <textarea class="form-control" id="deskripsi" name="deskripsi" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="lampiran" class="col-form-label">Lampiran Surat Permohonan Layanan (pdf) :</label>
+                  <input type="file" class="form-control" id="lampiran" name="lampiran" required accept=".pdf">
+                  <a href="/public/templateLampiran/template_permohonan.pdf" target="_blank">Untuk template lampiran dapat dilihat disini</a>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success" onclick='addTicketRequest("<%= reqTicket.length+1 %>", "<%= users.nip %>", "<%= users.name %>")'>Kirim</button>
+                </div>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      
+
+    <!-- Footer -->
+    <%- include('partials_pegawai/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_pegawai/script'); %>
+<script type="text/javascript">
+    function checkCategory(val){
+      var other_category=document.getElementById('otherCategory');
+      if(val=='Others'){
+        other_category.style.display='block';
+      }else { 
+        other_category.style.display='none';
+      }
+    }
+
+    async function addTicketRequest(id, nip_pegawai, name) {
+        let type = "OPD"
+        let no_ticket = `REQ-OPD-${id}`
+        let category = $("#category").val();
+        let deskripsi = $("#deskripsi").val();
+        let request_date = new Date().toISOString();
+        let status = "Belum Dikerjakan"
+        let namaFile = lampiran.files[0];
+
+        var alerFillCategory=document.getElementById('alertInputCategory');
+
+        if (category == "Others") {
+          category = $("#otherCategory").val();
+          if (category == "") {
+            alerFillCategory.style.display='block';
+          }
+        }
+        console.log(category)
+
+        const data = new FormData();
+
+        data.append("nip_pegawai", nip_pegawai)
+        data.append("no_ticket", no_ticket)
+        data.append("type", type)
+        data.append("category", category)
+        data.append("deskripsi", deskripsi)
+        data.append("request_date", request_date)
+        data.append("status", status)
+        data.append("lampiran", namaFile)
+
+        if (deskripsi == "" || category == "" || namaFile == undefined ) {
+          return false
+        }else{
+            await fetch("http://localhost:3000/api/add_reqTicketLampiran", {
+              method: 'POST',
+              body: data,
+            }).then(async (response) => {
+                if (response.status === 500) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Format File Wajib PDF dan size maksimal 1mb',
+                    showConfirmButton: true,
+                  }).then(function(){ 
+                    location.reload();
+                    }
+                  )
+                }
+                if (response.status != 500) {
+                  socket.emit("newReqTicket", {
+                      sender_nip: nip_pegawai,
+                      sender_name: name,
+                      no_ticket: no_ticket,
+                      text: "New Request Ticket OPD",
+                  });
+
+                  $.ajax({
+                    url: `http://localhost:3000/api/add_notification`,
+                    type: 'POST',
+                    data: ({ no_ticket: no_ticket, receiver_role: "admin", sender_role: "OPD", sender_nip: nip_pegawai, sender_name: name, text: "New Request Ticket OPD" }),
+                    success: function (result) {
+                      // location.reload();
+                    }
+                  });
+
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Ticket Request OPD Telah Ditambahkan',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(function(){ 
+                    location.reload();
+                    }
+                  )
+                }
+                return response
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+            
+        }
+
+        
+        
+      }
+
+      function detail(ticketID){
+          $.ajax({
+              url: `http://localhost:3000/home/requestDinas/detail/${ticketID}`,
+              type: 'GET',
+              success: function (result) {
+              location.href=`/home/requestDinas/detail/${ticketID}`
+              // location.reload();
+              }
+          });
+      }
+</script>
+</body>
+</html>
+

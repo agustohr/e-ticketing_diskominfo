@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Akun Pegawai</title>
+    <%- include('partials_admin/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_admin/sidebar'); %>
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_admin/header'); %>
+
+          
+    <!-- ====================================
+    ——— CONTENT WRAPPER
+    ===================================== -->
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="breadcrumb-wrapper">
+                <h1>Akun Pegawai</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb p-0">
+                        <li class="breadcrumb-item">
+                          <a href="/homeAdmin">
+                            <span class="mdi mdi-home"></span>                
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            Account
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">Pegawai</li>
+                      </ol>
+                    </nav>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                            <h2>Data Akun Pegawai</h2>
+                            <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#tambahPegawai">
+                              <i class="mdi mdi-account-multiple-plus font-size-20"></i> Tambah Pegawai
+                            </button>
+                        </div>
+            
+                        <div class="card-body">
+                            <div class="hoverable-data-table">
+                                <table id="hoverable-data-table" class="table table-hover nowrap" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>NIP</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Jabatan</th>
+                                            <th>Dinas</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+            
+                                    <tbody>
+                                        <% akunPegawai.forEach((i,index)=> { %>
+                                            <% if (i.role == "pegawai") { %>
+                                                <tr>
+                                                    <td><%= i.name%></td>
+                                                    <td><%= i.nip%></td>
+                                                    <td><%= i.email%></td>
+                                                    <td><%= i.phone%></td>
+                                                    <td><%= i.jabatan%></td>
+                                                    <td><%= i.dinas%></td>
+                                                    <td>
+                                                      <button type="button" class="btn btn-sm btn-primary" onclick='resetPassword("<%= i.id%>")'>
+                                                        <i class="mdi mdi-lock-reset"></i>  Reset Password
+                                                      </button>
+                                                    </td>
+                                                </tr>
+                                            <% } %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            
+
+        </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    <!-- Tambah Pegawai -->
+    <div class="modal fade" id="tambahPegawai" tabindex="-1" aria-labelledby="tambahPegawai" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tambahPegawai">Tambah Akun Pegawai</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="addByForm-tab" data-toggle="tab" data-target="#addByForm" type="button" role="tab" aria-controls="addByForm" aria-selected="true">Tambah Individu</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="addByXcel-tab" data-toggle="tab" data-target="#addByXcel" type="button" role="tab" aria-controls="addByXcel" aria-selected="false">Tambah Excel</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="addByForm" role="tabpanel" aria-labelledby="addByForm-tab">
+                <form action="" onsubmit="return false">
+                  <div class="mb-3">
+                    <label for="nip" class="col-form-label">NIP :</label>
+                    <input type="text" class="form-control" id="nip" name="nip" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="name" class="col-form-label">Nama :</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="col-form-label">Email :</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="dinas" class="col-form-label">Dinas :</label><br>
+                    <select class="form-select" name="dinas" id="dinas" required>
+                      <option selected value="Sekretariat Daerah">Sekretariat Daerah</option>
+                      <option value="Sekretariat DPRD">Sekretariat DPRD</option>
+                      <option value="Satuan Polisi Pamong Praja">Satuan Polisi Pamong Praja</option>
+                      <option value="Badan Pengelolaan Pajak Dan Retribusi Daerah">Badan Pengelolaan Pajak Dan Retribusi Daerah</option>
+                      <option value="Korpri">Korpri</option>
+                      <option value="Dinas Komunikasi Dan Informatika">Dinas Komunikasi Dan Informatika</option>
+                      <option value="Inspektorat">Inspektorat</option>
+                      <option value="Dinas Pekerjaan Umum Dan Penataan Ruang">Dinas Pekerjaan Umum Dan Penataan Ruang</option>
+                      <option value="Dinas Pemberdayaan Perempuan Dan Perlindungan Anak">Dinas Pemberdayaan Perempuan Dan Perlindungan Anak</option>
+                      <option value="Dinas Kepemudaan, Olahraga Dan Pariwisata">Dinas Kepemudaan, Olahraga Dan Pariwisata</option>
+                      <option value="Dinas Penamaan Modal Dan Pelayanan Terpadu Satu Pintu">Dinas Penamaan Modal Dan Pelayanan Terpadu Satu Pintu</option>
+                      <option value="Dinas Pemberdayaan Masyarakat Dan Desa">Dinas Pemberdayaan Masyarakat Dan Desa</option>
+                      <option value="Dinas Perpusatakaan Dan Arsip">Dinas Perpusatakaan Dan Arsip</option>
+                      <option value="Dinas Koperasi Dan UMKM">Dinas Koperasi Dan UMKM</option>
+                      <option value="Dinas Perhubungan">Dinas Perhubungan</option>
+                      <option value="Dinas Ketahanan Pangan">Dinas Ketahanan Pangan</option>
+                      <option value="Dinas Kependudukan Dan Pencatatan Sipil">Dinas Kependudukan Dan Pencatatan Sipil</option>
+                      <option value="Dinas Sosial">Dinas Sosial</option>
+                      <option value="Dinas Kesehatan">Dinas Kesehatan</option>
+                      <option value="Dinas Perumahan Dan Kawasan Pemukiman">Dinas Perumahan Dan Kawasan Pemukiman</option>
+                      <option value="Dinas Pertanian">Dinas Pertanian</option>
+                      <option value="Dinas Perikanan">Dinas Perikanan</option>
+                      <option value="Dinas Perdagangan">Dinas Perdagangan</option>
+                      <option value="Dinas Pendidikan Dan Kebudayaan">Dinas Pendidikan Dan Kebudayaan</option>
+                      <option value="Dinas Linkungan Hidup">Dinas Linkungan Hidup</option>
+                      <option value="Dinas Pengendalian Penduduk Dan Keluarga Berencana">Dinas Pengendalian Penduduk Dan Keluarga Berencana</option>
+                      <option value="Dinas Tenaga Kerja Dan Transmigrasi">Dinas Tenaga Kerja Dan Transmigrasi</option>
+                      <option value="BPKA">BPKA</option>
+                      <option value="Badan Penanggulangan Bencana Daerah">Badan Penanggulangan Bencana Daerah</option>
+                      <option value="Badan Kepegawaian Dan Pengembangan Sumber Daya Manusia">Badan Kepegawaian Dan Pengembangan Sumber Daya Manusia</option>
+                      <option value="Badan Kesatuan Bangsa Dan Politik">Badan Kesatuan Bangsa Dan Politik</option>
+                      <option value="Bappeda">Bappeda</option>
+    
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="col-form-label">Password :</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="cpassword" class="col-form-label">Konfirmasi Password :</label>
+                    <input type="password" class="form-control" id="cpassword" name="cpassword" required>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" onclick='addPegawai()'>Kirim</button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="addByXcel" role="tabpanel" aria-labelledby="addByXcel-tab">
+                <form action="" onsubmit="return false">
+                  <div class="mb-3">
+                    <label for="excel" class="col-form-label">Data Pegawai (.xlsx) :</label>
+                    <input type="file" class="form-control" id="excel" name="excel" required accept=".xlsx">
+                    <a href="/public/templateLampiran/data_pegawai_excel.xlsx" download>Masukkan data pegawai sesuai template excel berikut</a>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" onclick='addPegawaiExcell()'>Kirim</button>
+                  </div>
+                </form>
+                
+              </div>
+            </div>
+            
+          </div>
+          <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" onclick='addPegawai()'>Kirim</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!-- Footer -->
+    <%- include('partials_admin/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <%- include('partials_admin/script'); %>
+<script type="text/javascript">
+  window.onload = function () {
+      document.getElementById("password").onchange = validatePassword;
+      document.getElementById("cpassword").onchange = validatePassword;
+  }
+  function validatePassword(){
+      var pass2=document.getElementById("cpassword").value;
+      var pass1=document.getElementById("password").value;
+      if(pass1!=pass2)
+          document.getElementById("cpassword").setCustomValidity("Password Tidak Sama, Coba Lagi");
+      else
+          document.getElementById("cpassword").setCustomValidity('');
+  }
+
+    async function addPegawai(){
+      let name = $("#name").val();
+      let nip = $("#nip").val();
+      let email = $("#email").val();
+      let dinas = $("#dinas").val();
+      let password = $("#password").val();
+      let cpassword = $("#cpassword").val();
+
+      if (name == "" || nip == "" || email == "" || dinas == "" || password == "" || password != cpassword) {
+        return false;
+      }else {
+        $.ajax({
+            url: `http://localhost:3000/api/add_pegawai`,
+            type: 'POST',
+            data: ({ name: name, nip: nip, email: email, dinas: dinas, password: password, role: "pegawai" }),
+            success: function (result) {
+              console.log(result)
+              if(result == "NIP Telah Terdaftar"){
+                Swal.fire(
+                  '',
+                  result,
+                  'error'
+                ).then(function(){ 
+                    location.reload();
+                    }
+                  )
+              }else{
+                Swal.fire(
+                  'Good job!',
+                  'Berhasil Menambahkan Pegawai',
+                  'success'
+                ).then(function(){ 
+                    location.reload();
+                    }
+                  )
+              }
+              
+              // location.reload();
+            }
+        });
+        
+      }
+
+      
+    }
+
+    async function addPegawaiExcell(){
+      let namaFile = excel.files[0];
+      const data = new FormData();
+      data.append("excel", namaFile)
+
+      if (namaFile == undefined ) {
+        return false
+      }else{
+        await fetch("http://localhost:3000/api/add_pegawai_excel", {
+          method: 'POST',
+          body: data,
+        }).then(async (response) => {
+          console.log(response)
+            if (response.status === 500) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Format File Wajib Excel (.xlsx) dan size maksimal 1mb',
+                showConfirmButton: true,
+              }).then(function(){ 
+                location.reload();
+                }
+              )
+            }
+            if (response.status != 500) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Data Pegawai OPD Berhasil Ditambahkan',
+                showConfirmButton: true
+              }).then(function(){ 
+                location.reload();
+                }
+              )
+            }
+            return response.json()
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+      }
+    }
+
+    async function resetPassword(id){
+      $.ajax({
+          url: `http://localhost:3000/api/reset_password/${id}`,
+          type: 'PUT',
+          data: ({ password: "lampura123" }),
+          success: function (result) {
+            Swal.fire(
+              'Good job!',
+              'Berhasil Reset Password',
+              'success'
+            ).then(function(){ 
+              location.reload();
+              }
+            )
+          }
+      });
+    }
+
+</script>
+</body>
+</html>
+

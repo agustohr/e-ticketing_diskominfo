@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Register Akun Dinas</title>
+    <%- include('partials_pegawai/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_pegawai/sidebar'); %>
+
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_pegawai/header'); %>
+
+          
+          <!-- ====================================
+          ——— CONTENT WRAPPER
+          ===================================== -->
+            <div class="content-wrapper">
+                <div class="content">
+                  <div class="bg-white border rounded">
+                    <div class="no-gutters">
+                        <div class="profile-content-right profile-right-spacing py-5">
+                          <!-- <div class="justify-content-center align-items-center text-center"> -->
+                            <% if (users.status_akun_dinas == "not_registered") { %>
+                              <div class="m-5">
+                                <!-- <h1 class="text-primary bold">Akun Anda Belum Terdaftar Akun OPD</h1> -->
+                                <h5 class="py-2 text-dark">Permohonan Agar Akun Terdaftar Sebagai Akun Dinas</h5>
+                                <p>Anda dapat menjadikan akun anda menjadi akun dinas yang disetujui oleh admin untuk membuat ticket dalam pelaporan masalah (Incident) dan pengajuan layanan (Request) yang berasal dari Dinas OPD anda</p><br>
+                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regAkunDinas">Daftar Akun OPD</button> -->
+                                <form action="" onsubmit="return false">
+                                  <div class="form-group mb-4">
+                                    <label for="dinasOPD">Dinas</label>
+                                    <input type="text" readonly class="form-control" id="dinasOPD" value="<%= users.dinas %>">
+                                  </div>
+                                  
+                                  <div class="form-group mb-4">
+                                    <label for="surat_permohonan">Surat Permohonan Pendaftaran Akun Dinas OPD</label>
+                                    <input type="file" class="form-control" id="surat_permohonan" required>
+                                    <p>Surat permohonan pembuatan akun dinas opd yang bertandatangani oleh kepala dinas</p>
+                                    <a href="/public/templateLampiran/template_permohonan.pdf" target="_blank">Untuk template surat permohonan pendaftaran akun dinas dapat dilihat disini</a>
+                                  </div>
+                                  <div class="d-flex justify-content-end mt-5">
+                                    <button type="submit" class="btn btn-primary mb-2 btn-pill" onclick='regAkunDinas("<%= users.id %>", "<%= users.nip %>", "<%= users.name %>", "<%= users.dinas %>", "<%= users.status_akun_dinas %>")'>Request</button>
+                                  </div>
+                                </form>
+                              </div>
+                            <% } else if(users.status_akun_dinas == "request"){ %>
+                                <div class="justify-content-center align-items-center text-center">
+                                  <h5 class="py-2 text-dark">Permohonan Pendaftaran Akun Dinas OPD Telah Dikirim</h5>
+                                  <p>Mohon Menunggu Hingga Akun Anda Disetujui Oleh Admin</p>
+                                </div>
+                            <% }else if(users.status_akun_dinas == "approved") { %>
+                              <div class="justify-content-center align-items-center text-center">
+                                <h5 class="py-2 text-dark">Akun Anda Telah Terdaftar Akun Dinas OPD</h5>
+                                <p>Pada menu Ticket Dinas OPD, anda dapat membuat ticket dalam pelaporan masalah (Incident) dan pengajuan layanan (Request) yang berasal dari Dinas OPD</p>
+                              </div>
+                            <% }else if(users.status_akun_dinas == "rejected"){ %>
+                              <div class="justify-content-center align-items-center text-center">
+                                <h5 class="py-2 text-dark">Akun Anda Telah Ditolak Untuk Terdaftar Akun Dinas OPD</h5>
+                                <p>Anda dapat melakukan permohonan pendaftaran akun dinas kembali dengan klik tombol dibawah ini.</p>
+                                <button type="button" class="btn btn-primary mb-2 btn-pill" onclick='rejectedAkunDinas("<%= users.id %>")'>Request Again</button>
+                              </div>
+                            <% } %>
+                          <!-- </div> -->
+                          
+                        </div>
+                    </div>
+                  </div>
+
+
+                </div> <!-- End Content -->
+            </div> <!-- End Content Wrapper -->
+    
+    <!-- Footer -->
+    <%- include('partials_pegawai/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <%- include('partials_pegawai/script'); %>
+
+  <script type="text/javascript">
+
+    async function regAkunDinas(id, nip, name, dinas, status_akun_dinas) {
+        status_akun_dinas = "request";
+        let namaFile = surat_permohonan.files[0];
+        console.log(namaFile)
+
+        const data = new FormData();
+
+        data.append("surat_permohonan", namaFile)
+        data.append("status_akun_dinas", status_akun_dinas)
+        // console.log('formData = '+data)
+        
+        if (namaFile == "" || namaFile == null || namaFile == undefined) {
+          return false
+        }else{
+          Swal.fire({
+          title: 'Are you sure?',
+          text: "Anda yakin ingin menjadikan akun dinas?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`http://localhost:3000/api/regAkunDinas/${id}`, {
+                  method: 'put',
+                  body: data,
+              }).then(async (response) => {
+                  if (response.status === 500) {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Format File Wajib PDF dan size maksimal 1mb',
+                      showConfirmButton: true,
+                    }).then(function(){ 
+                      location.reload();
+                      }
+                    )
+                  }
+                  if (response.status != 500) {
+                    socket.emit("reqAkunDinas", {
+                        sender_nip: nip,
+                        sender_name: name,
+                        dinas: dinas,
+                        text: "Request Akun Dinas OPD",
+                    });
+                    $.ajax({
+                      url: `http://localhost:3000/api/add_notification`,
+                      type: 'POST',
+                      data: ({ receiver_role: "admin", sender_role: "pegawai", sender_nip: nip, sender_name: name, text: "Request Akun Dinas OPD" }),
+                      success: function (result) {
+                        // location.reload();
+                      }
+                    });
+
+                    Swal.fire(
+                      'Permohonan pembuatan akun dinas telah dikirim',
+                      'Mohon tunggu persetujuan dari admin',
+                      'success'
+                    ).then(function(){ 
+                      location.reload();
+                      }
+                    )
+                  }
+                  return response.json()
+              }).then((res) => {
+
+              }).catch((error) => {
+                  console.log(error)
+              })
+
+              
+            }
+          })
+        }
+    }
+
+    async function rejectedAkunDinas(id){
+      $.ajax({
+        url: `http://localhost:3000/api/update_user/${id}`,
+        type: 'PUT',
+        data: ({ status_akun_dinas: "not_registered" }),
+        success: function (result) {
+          location.reload();
+        }
+      });
+    }
+
+    
+
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Profile</title>
+    <%- include('partials_pegawai/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_pegawai/sidebar'); %>
+
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_pegawai/header'); %>
+
+          
+          <!-- ====================================
+          ——— CONTENT WRAPPER
+          ===================================== -->
+            <div class="content-wrapper">
+                <div class="content">
+                  <div class="bg-white border rounded">
+                    <div class="row no-gutters">
+                      <div class="col-lg-4 col-xl-3">
+                        <div class="profile-content-left profile-left-spacing pt-5 pb-3 px-3 px-xl-5">
+                          <div class="card text-center widget-profile px-0 border-0">
+                            <div class="card-img mx-auto rounded-circle">
+                              <img src="/assets/img/user/icon_account.jpg" alt="user image" height="100">
+                            </div>
+                  
+                            <div class="card-body">
+                              <h4 class="py-2 text-dark"><%= users.name %></h4>
+                              <p><%= users.nip %></p>
+                            </div>
+                            <hr class="w-100">
+                    
+                            <div class="contact-info pt-4">
+                              <h5 class="text-dark mb-1">Contact Information</h5>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Email address</p>
+                              <p><%= users.email %></p>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Phone Number</p>
+                              <p><%= users.phone %></p>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Jabatan</p>
+                              <p><%= users.jabatan %></p>
+                              <p class="text-dark font-weight-medium pt-4 mb-2">Dinas</p>
+                              <p><%= users.dinas %></p>
+                            </div>
+                          </div>
+                  
+                        </div>
+                      </div>
+                  
+                      <div class="col-lg-8 col-xl-9">
+                        <div class="profile-content-right profile-right-spacing py-5">
+                          <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="updateProfile-tab" data-toggle="tab" href="#updateProfile" role="tab" aria-controls="updateProfile" aria-selected="false">Ubah Profile</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                              <a class="nav-link" id="changePassword-tab" data-toggle="tab" href="#changePassword" role="tab" aria-controls="changePassword" aria-selected="true">Ubah Password</a>
+                            </li>
+                          </ul>
+                  
+                          <div class="tab-content px-3 px-xl-5" id="myTabContent">
+                            <div class="tab-pane fade show active" id="updateProfile" role="tabpanel" aria-labelledby="updateProfile-tab">
+                              <div class="tab-pane-content mt-5">
+                                <form action="" onsubmit="return false" >
+                  
+                                  <!-- <div class="row mb-2">
+                                    <div class="col-lg-6">
+                                      <div class="form-group">
+                                        <label for="firstName">First name</label>
+                                        <input type="text" class="form-control" id="firstName" value="Albrecht">
+                                      </div>
+                                    </div>
+                  
+                                    <div class="col-lg-6">
+                                      <div class="form-group">
+                                        <label for="lastName">Last name</label>
+                                        <input type="text" class="form-control" id="lastName" value="Straub">
+                                      </div>
+                                    </div>
+                                  </div> -->
+                  
+                                  <div class="form-group mb-4">
+                                    <label for="name">Nama Lengkap</label>
+                                    <input type="text" readonly class="form-control" id="name" value="<%= users.name %>">
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="nip">NIP</label>
+                                    <input type="text" readonly class="form-control" id="nip" value="<%= users.nip %>">
+                                  </div>
+                  
+                                  <div class="form-group mb-4">
+                                    <label for="email">Email</label>
+                                    <input type="email" readonly class="form-control" id="email" value="<%= users.email %>">
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" required>
+                                    <!-- <label class="error" for="phone" id="phone_error">This field is required.</label> -->
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="jabatan">Jabatan</label>
+                                    <input type="text" class="form-control" id="jabatan" name="jabatan" required>
+                                    <!-- <label class="error" for="jabatan" id="jabatan_error">This field is required.</label> -->
+                                  </div>
+
+                                  <div class="form-group mb-4">
+                                    <label for="dinas">Dinas</label>
+                                    <input type="text" class="form-control" id="dinas" name="dinas" required>
+                                    <!-- <label class="error" for="dinas" id="dinas_error">This field is required.</label> -->
+                                  </div>
+                  
+                                  <div class="d-flex justify-content-end mt-5">
+                                    <button type="submit" class="btn btn-primary mb-2 btn-pill" onclick='updateProfile("<%= users.id %>")'>Update Profile</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="changePassword" role="tabpanel" aria-labelledby="changePassword-tab">
+                              <div class="tab-pane-content mt-5">
+                                <form action="/changepassword" method="post">
+                                  <input type="hidden" name="nip" id="nip-cp" value="<%= users.nip %>">
+                                  <div class="form-group mb-4">
+                                    <label for="oldPassword">Old password</label>
+                                    <input type="password" class="form-control" name="oldPassword" id="oldPassword" required>
+                                  </div>
+                  
+                                  <div class="form-group mb-4">
+                                    <label for="newPassword">New password</label>
+                                    <input type="password" class="form-control" name="newPassword" id="newPassword" required>
+                                  </div>
+                  
+                                  <div class="form-group mb-4">
+                                    <label for="conPassword">Confirm password</label>
+                                    <input type="password" class="form-control" id="conPassword" required>
+                                  </div>
+
+                                  <div class="d-flex justify-content-end mt-5">
+                                    <button type="submit" class="btn btn-primary mb-2 btn-pill">Change Password</button>
+                                  </div>
+                                </form>
+                                <input type="hidden" id="message" value="<%= messages.error %>">
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div> <!-- End Content -->
+            </div> <!-- End Content Wrapper -->
+    
+    <!-- Footer -->
+    <%- include('partials_pegawai/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <%- include('partials_pegawai/script'); %>
+
+  <script type="text/javascript">
+    let message = document.getElementById("message").value;
+    if (message == "Password lama yang anda masukkan salah!") {
+      Swal.fire(
+        message,
+        '',
+        'error'
+      )
+    }else if(message == "Password berhasil diubah"){
+      Swal.fire(
+        message,
+        '',
+        'success'
+      )
+    }
+
+    async function updateProfile(id) {
+      let phone = $("#phone").val();
+      let jabatan = $("#jabatan").val();
+      let dinas = $("#dinas").val();
+
+      
+
+      if (phone == "" || jabatan == "" || dinas == "") {
+        // $("label#phone_error").show();
+        // $("input#phone").focus();
+        return false;
+      }else {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "Anda yakin ingin memperbaharui data anda?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, update it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: `http://localhost:3000/api/update_profile/${id}`,
+              type: 'PUT',
+              data: ({ phone: phone, jabatan: jabatan, dinas: dinas }),
+              success: function (result) {
+                // location.reload();
+              }
+            });
+            
+            Swal.fire(
+              'Updated!',
+              'Data anda telah diperbaharui',
+              'success'
+            ).then(function(){ 
+              location.reload();
+              }
+            )
+          }
+        })
+      }
+      
+      
+    }
+
+    window.onload = function () {
+      document.getElementById("newPassword").onchange = validatePassword;
+      document.getElementById("conPassword").onchange = validatePassword;
+    }
+    function validatePassword(){
+      var pass2=document.getElementById("newPassword").value;
+      var pass1=document.getElementById("conPassword").value;
+      if(pass1!=pass2)
+          document.getElementById("conPassword").setCustomValidity("Passwords Tidak Sama, Coba Lagi");
+      else
+          document.getElementById("conPassword").setCustomValidity('');
+    }
+
+  </script>
+</body>
+</html>
+

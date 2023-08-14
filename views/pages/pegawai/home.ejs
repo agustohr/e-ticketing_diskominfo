@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>E-Ticketing | Home</title>
+    <%- include('partials_pegawai/head'); %>
+  </head>
+
+  <body class="header-fixed sidebar-static sidebar-dark header-light" id="body">
+
+    <div id="toaster">
+      <input type="hidden" id="namaUser" value="<%= users.name %>">
+    </div>
+
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <%- include('partials_pegawai/sidebar'); %>
+
+
+          <!-- ====================================
+        ——— PAGE WRAPPER
+        ===================================== -->
+        <div class="page-wrapper">
+          
+          <!-- Header -->
+          <%- include('partials_pegawai/header'); %>
+
+          
+          <!-- ====================================
+          ——— CONTENT WRAPPER
+          ===================================== -->
+          <div class="content-wrapper">
+            <div class="content">
+              <% var belum = 0 %>
+              <% var sedang = 0 %>
+              <% var selesai = 0 %>
+              <% incidentTicket.forEach((i,index) => { %>
+               <% if (i.nip_pegawai == users.nip) { %>
+                <% if (i.status == "Belum Dikerjakan") { %>
+                  <% belum++ %> 
+                <% }else if(i.status == "Sedang Dikerjakan"){ %>
+                  <% sedang++ %> 
+                <% }else if(i.status == "Selesai Dikerjakan"){ %>
+                  <% selesai++ %> 
+                <% } %>
+               <% } %>
+              <% }) %>
+              <% requestTicket.forEach((i,index) => { %>
+                <% if (i.nip_pegawai == users.nip) { %>
+                 <% if (i.status == "Belum Dikerjakan") { %>
+                   <% belum++ %> 
+                 <% }else if(i.status == "Sedang Dikerjakan"){ %>
+                   <% sedang++ %> 
+                 <% }else if(i.status == "Selesai Dikerjakan"){ %>
+                   <% selesai++ %> 
+                 <% } %>
+                <% } %>
+               <% }) %>
+                  <!-- Top Statistics -->
+                  <div class="row">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-ticket-outline text-danger mr-4"></i>
+                          <h4 class="text-primary my-2"><%= belum %></h4>
+                          <p>Ticket Belum Dikerjakan</p>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-wrench-outline text-primary mr-4"></i>
+                          <h4 class="text-primary my-2"><%= sedang %></h4>
+                          <p>Ticket Sedang Dikerjakan</p>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-clipboard-check-outline text-success mr-4"></i>
+                          <h4 class="text-primary my-2"><%= selesai %></h4>
+                          <p>Ticket Selesai Dikerjakan</p>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <% var pesan = 0 %>
+                    <% message.forEach((i,index) => { %>
+                      <% if (i.receiver_nip == users.nip) { %>
+                        <% pesan++ %>
+                      <% } %>
+                     <% }) %>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                      <div class="card widget-block p-4 rounded bg-white border">
+                        <div class="card-block">
+                          <i class="mdi mdi-email-outline text-warning mr-4"></i>
+                          <h4 class="text-primary my-2"><%= pesan %></h4>
+                          <p>Pesan</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <!-- Sales Graph -->
+                      <div class="card card-default">
+                        <div class="card-header">
+                          <h2>Introduction</h2>
+                        </div>
+                        <div class="card-body">
+                          <p>Ticket terbagi menjadi 4 type yaitu : </p>
+                          <p>Ticket Pegawai - Incident : Untuk melaporkan permasalahan terkait TIK yang dialamai oleh individu pegawai atau anda sendiri</p>
+                          <p>Ticket Pegawai - Request : Untuk meminta pelayanan terkait TIK yang dialamai oleh individu pegawai atau anda sendiri</p>
+                          <p>Ticket Dinas OPD - Incident : Untuk melaporkan permasalahan terkait TIK yang dialami oleh dinas OPD anda</p>
+                          <p>Ticket Dinas OPD - Request : Untuk melaporkan permasalahan terkait TIK yang dialami oleh dinas OPD anda</p><br>
+
+                          <p>Berikut kategori tiap-tiap type ticket beserta estimasi waktu penyelesaiannya : </p>
+                          <div class="d-flex">
+                            <div class="p-4">
+                              <p>Ticket Dinas OPD - Request :</p> 
+                              <ul>
+                                <li>Colocation Server : 1 - 2 Minggu</li>
+                                <li>Internet : 1 - 3 Minggu</li>
+                                <li>Pointing Domain : 1 - 2 Hari</li>
+                                <li>Email : 1 - 2 Hari</li>
+                                <li>Bimbingan Teknologi : 1 - 2 Minggu</li>
+                                <li>Virtual Machine : 1 - 2 Minggu</li>
+                              </ul>
+                            </div>
+                            <div class="p-4">
+                              <p>Ticket Dinas OPD - Incident :</p>
+                              <ul>
+                                <li>Colocation Server : 3 - 4 Minggu</li>
+                                <li>Internet : 1 - 5 Hari</li>
+                                <li>Website : 2 - 4 Minggu</li>
+                                <li>Email : 1 - 7 Hari</li>
+                                <li>Virtual Machine : 1 - 2 Minggu</li>
+                              </ul>
+                            </div>
+                            <div class="p-4">
+                              <p>Ticket Pegawai - Request :</p>
+                              <ul>
+                                <li>Email : 1 - 2 Hari</li>
+                              </ul>
+                            </div>
+                            <div class="p-4">
+                              <p>Ticket Pegawai - Incident :</p>
+                              <ul>
+                                <li>Email : 1 - 2 Hari</li>
+                                <li>Presensi : 1 - 2 Hari</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <p>Untuk melakukan permintaan layanan ataupun pelaporan masalah terkait TIK yang bersumber atau dialami oleh dinas OPD anda, anda sebagai PIC harus mendaftarkan akun anada sebagai akun dinas OPD dengan melampirkan surat permohonan pembuatan akun dinas OPD dari dinas OPD anda</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+      </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+    
+    
+    <!-- Footer -->
+    <%- include('partials_pegawai/footer'); %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <%- include('partials_pegawai/script'); %>
+</body>
+</html>
+

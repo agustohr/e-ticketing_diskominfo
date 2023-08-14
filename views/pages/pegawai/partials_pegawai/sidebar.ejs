@@ -1,0 +1,118 @@
+<aside class="left-sidebar bg-sidebar">
+    <div id="sidebar" class="sidebar sidebar-with-footer">
+      <!-- Aplication Brand -->
+      <div class="app-brand">
+        <a href="/home" title="Diskominfo">
+          <!-- <svg
+            class="brand-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid"
+            width="30"
+            height="33"
+            viewBox="0 0 30 33">
+            <g fill="none" fill-rule="evenodd">
+              <path class="logo-fill-blue" fill="#7DBCFF" d="M0 4v25l8 4V0zM22 4v25l8 4V0z" />
+              <path class="logo-fill-white" fill="#FFF" d="M11 4v25l8 4V0z" />
+            </g>
+          </svg> -->
+          <img src="/assets/img/kominfo_logo.png" alt="logo" height="40">
+
+          <span class="brand-name text-truncate">DISKOMINFO</span>
+        </a>
+      </div>
+
+      <!-- begin sidebar scrollbar -->
+      <div class="" data-simplebar style="height: 100%;">
+        <!-- sidebar menu -->
+        <ul class="nav sidebar-inner" id="sidebar-menu">
+          <li <% if (page_name === "Home") { %>class="active" <% } %>>
+            <a class="sidenav-item-link" href="/home">
+              <i class="mdi mdi-view-dashboard-outline"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+
+          <li <% if (page_name === "Ticket Pegawai Incident" || page_name === "Ticket Pegawai Request") { %>class="has-sub active" <% } %>>
+            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#app"
+              aria-expanded="false" aria-controls="app">
+              <i class="mdi mdi-pencil-box-multiple"></i>
+              <span class="nav-text">Ticket Pegawai</span> <b class="caret"></b>
+            </a>
+
+            <ul class="collapse " id="app" data-parent="#sidebar-menu">
+              <div class="sub-menu">
+                <li <% if (page_name === "Ticket Pegawai Incident") { %>class="active" <% } %>>
+                  <a class="sidenav-item-link" href="/home/incident">
+                    <span class="nav-text">Incident</span>
+                  </a>
+                </li>
+                <li <% if (page_name === "Ticket Pegawai Request") { %>class="active" <% } %>>
+                  <a class="sidenav-item-link" href="/home/request">
+                    <span class="nav-text">Request</span>
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </li>
+
+          <!-- <li class="section-title">
+            UI Elements
+          </li> -->
+
+          <% if (users.status_akun_dinas == "approved") { %>
+            <li <% if (page_name === "Ticket Dinas Incident" || page_name === "Ticket Dinas Request") { %>class="has-sub active" <% } %>>
+              <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#forms"
+                aria-expanded="false" aria-controls="forms">
+                <i class="mdi mdi-table"></i>
+                <span class="nav-text">Ticket Dinas OPD</span> <b class="caret"></b>
+              </a>
+  
+              <ul class="collapse " id="forms" data-parent="#sidebar-menu">
+                <div class="sub-menu">
+                  <li <% if (page_name === "Ticket Dinas Incident") { %>class="active" <% } %>>
+                    <a class="sidenav-item-link" href="/home/incidentDinas">
+                      <span class="nav-text">Incident</span>
+                    </a>
+                  </li>
+  
+                  <li <% if (page_name === "Ticket Dinas Request") { %>class="active" <% } %>>
+                    <a class="sidenav-item-link" href="/home/requestDinas">
+                      <span class="nav-text">Request</span>
+                    </a>
+                  </li>
+                </div>
+              </ul>
+            </li>
+          <% } %>
+
+          
+
+          <!-- <li class="section-title">
+            Documentation
+          </li> -->
+        </ul>
+      </div>
+
+      <!-- <div class="sidebar-footer">
+        <hr class="separator mb-0" />
+        <div class="sidebar-footer-content">
+          <h6 class="text-uppercase">
+            Cpu Uses <span class="float-right">40%</span>
+          </h6>
+
+          <div class="progress progress-xs">
+            <div class="progress-bar active" style="width: 40%;" role="progressbar"></div>
+          </div>
+
+          <h6 class="text-uppercase">
+            Memory Uses <span class="float-right">65%</span>
+          </h6>
+
+          <div class="progress progress-xs">
+            <div class="progress-bar progress-bar-warning" style="width: 65%;" role="progressbar"></div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </aside>
+  
